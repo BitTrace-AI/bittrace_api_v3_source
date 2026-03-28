@@ -1,2 +1,0 @@
-[console_scripts]
-bittrace = bittrace.cli.main:main

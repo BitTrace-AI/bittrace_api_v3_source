@@ -249,8 +249,16 @@ def _run_persistence(args: argparse.Namespace) -> int:
     source_run_root = (
         Path(args.source_run_root).resolve()
         if args.source_run_root is not None
-        else config.source_deployment_run_root.resolve()
+        else (
+            config.source_deployment_run_root.resolve()
+            if config.source_deployment_run_root is not None
+            else None
+        )
     )
+    if source_run_root is None:
+        raise ContractValidationError(
+            "Persistence replay requires `--source-run-root` when the profile does not embed one."
+        )
     prepared = prepare_leanlean_persistence_tuning(
         config_path=config.config_path,
         run_id=args.run_id,

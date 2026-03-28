@@ -1,7 +1,9 @@
 profile_name: persistence_quiet_scout
 
 deployment_candidate_config: configs/canonical_deployment_candidate.yaml
-source_deployment_run_root: ../runs/canonical_deployment_candidate/REPLACE_WITH_RUN_ID
+# Intentionally left blank in the shipped stable profile. Pass --source-run-root
+# with the real deployment-candidate run root when invoking `bittrace persistence`.
+source_deployment_run_root:
 
 window_outputs:
   artifact_name: leanlean_window_outputs_template.json
@@ -58,6 +60,7 @@ planned_outputs:
 
 notes:
   - "This file freezes the default quiet-scout persistence profile for the supported lane."
+  - "Provide the real deployment-candidate run root via --source-run-root at execution time."
   - "Materialize real per-record Lean-Lean outputs under the deployment-candidate run before replaying the profile."
   - "Treat each split-local condition+bearing recording stream as an ordered sequence for replay."
   - "The runtime logic remains a simple non-latching fault counter: i1 / d1 / y6 / r12."

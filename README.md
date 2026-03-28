@@ -1,6 +1,6 @@
 # BitTrace Canonical API
 
-`/home/billm/bittrace_api_v3_source` is the one canonical BitTrace API repo.
+This repository is the canonical BitTrace API source tree.
 
 Public identity:
 
@@ -53,7 +53,7 @@ Several of the retained research configs intentionally contain `REPLACE_WITH_RUN
 
 ## Quick Start
 
-Do not use the shared research venv from `/home/billm/BitTrace_Bearings_V3_1/.venv` for validation. It can resolve the wrong historical package state instead of this canonical repo.
+Do not reuse a previously created or shared BitTrace virtualenv for validation. Create a clean repo-local `.venv_source` so the installed `bittrace` package comes from this checkout.
 
 ```bash
 rm -rf .venv_source

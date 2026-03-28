@@ -101,7 +101,7 @@ class PersistenceTuningConfig:
     config_path: Path
     profile_name: str
     deployment_candidate_config_path: Path
-    source_deployment_run_root: Path
+    source_deployment_run_root: Path | None
     window_output_template_name: str
     window_output_materialized_name: str
     split_scope: tuple[str, ...]
@@ -183,7 +183,7 @@ def load_leanlean_persistence_tuning_config(
         raw_path=payload.get("deployment_candidate_config"),
         field_name="deployment_candidate_config",
     )
-    source_deployment_run_root = _resolve_relative_path(
+    source_deployment_run_root = _resolve_optional_relative_path(
         config_file=resolved_path,
         raw_path=payload.get("source_deployment_run_root"),
         field_name="source_deployment_run_root",
@@ -291,8 +291,17 @@ def prepare_leanlean_persistence_tuning(
     resolved_source_run_root = (
         Path(source_run_root).resolve()
         if source_run_root is not None
-        else config.source_deployment_run_root.resolve()
+        else (
+            config.source_deployment_run_root.resolve()
+            if config.source_deployment_run_root is not None
+            else None
+        )
     )
+    if resolved_source_run_root is None:
+        raise ContractValidationError(
+            "Lean-Lean persistence tuning requires a deployment run root. "
+            "Pass `--source-run-root` or set `source_deployment_run_root` in the profile YAML."
+        )
     if not resolved_source_run_root.is_dir():
         raise ContractValidationError(
             f"Lean-Lean persistence tuning source run root does not exist: {resolved_source_run_root}"
@@ -2186,6 +2195,23 @@ def _resolve_relative_path(
     if path.is_absolute():
         return path.resolve()
     return (config_file.parent / path).resolve()
+
+
+def _resolve_optional_relative_path(
+    *,
+    config_file: Path,
+    raw_path: object,
+    field_name: str,
+) -> Path | None:
+    if raw_path is None:
+        return None
+    if isinstance(raw_path, str) and not raw_path.strip():
+        return None
+    return _resolve_relative_path(
+        config_file=config_file,
+        raw_path=raw_path,
+        field_name=field_name,
+    )
 
 
 def _load_json(path: Path) -> dict[str, Any]:

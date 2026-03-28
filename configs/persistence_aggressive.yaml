@@ -1,7 +1,9 @@
 profile_name: persistence_aggressive
 
 deployment_candidate_config: configs/canonical_deployment_candidate.yaml
-source_deployment_run_root: ../runs/canonical_deployment_candidate/REPLACE_WITH_RUN_ID
+# Intentionally left blank in the shipped stable profile. Pass --source-run-root
+# with the real deployment-candidate run root when invoking `bittrace persistence`.
+source_deployment_run_root:
 
 window_outputs:
   artifact_name: leanlean_window_outputs_template.json
@@ -68,6 +70,7 @@ planned_outputs:
 
 notes:
   - "This file freezes the supported aggressive persistence profile for the source lane."
+  - "Provide the real deployment-candidate run root via --source-run-root at execution time."
   - "Reuse the locked Lean-Lean deployment-candidate outputs and the existing persistence-prep materialization."
   - "The supported aggressive runtime stays non-latching: i1 / d1 / y3 / r7."
   - "The quiet-scout profile remains available as the explicit comparison reference."

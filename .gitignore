@@ -2,4 +2,9 @@
 .venv_source/
 __pycache__/
 *.pyc
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+release_artifacts/
 runs/

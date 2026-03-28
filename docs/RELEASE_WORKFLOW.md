@@ -4,7 +4,7 @@
 
 - Python `3.12.x`
 - Use a clean repo-local source-lane venv: `.venv_source`
-- Do not run the supported dry run from `/home/billm/BitTrace_Bearings_V3_1/.venv`; that shared research venv can resolve the legacy BitTrace API 2.0 `bittrace` package/CLI
+- Do not reuse a previously created or shared BitTrace virtualenv; validate from a clean repo-local environment so the installed `bittrace` package comes from this checkout
 - Use `bittrace` as the only executable of record
 
 Create the clean source-lane venv from the repository root:

@@ -62,7 +62,7 @@ This directory is the handoff for parity and golden-vector evidence. It is the s
 
 ## 5. Release Hardening
 
-Use a clean repo-local source-lane venv for release hardening. Do not use the shared research venv from `/home/billm/BitTrace_Bearings_V3_1/.venv`; it can import the legacy BitTrace API 2.0 `bittrace` package.
+Use a clean repo-local source-lane venv for release hardening. Do not reuse a previously created or shared BitTrace virtualenv; it can import the wrong historical `bittrace` package state.
 
 ```bash
 rm -rf .venv_source
