@@ -1,0 +1,5 @@
+PyYAML>=6.0
+scipy>=1.13
+
+[gpu]
+torch>=2.10
