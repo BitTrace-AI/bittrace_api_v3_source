@@ -1,4 +1,4 @@
-"""Internal helpers for the frozen Lean-Lean shipping lane."""
+"""Experimental backend-architecture comparison workflows."""
 
 from __future__ import annotations
 
@@ -28,23 +28,23 @@ from bittrace.core.lean.engine import LeanLayer, run_lean_evolution
 from bittrace.v3 import ContractValidationError, StageKey, WaveformDatasetBundle, WaveformDatasetRecord
 from bittrace.v3.frontend_encoding import encode_frontend_record
 
-from .full_binary_campaign import (
+from bittrace.source.full_binary_campaign import (
     DEFAULT_RUNS_ROOT as FULL_BINARY_DEFAULT_RUNS_ROOT,
     _load_backend_training_configs,
     _materialize_source_bundle,
     _resolve_inventory_rows,
     load_consumer_config,
 )
-from .locked_frontend import (
+from bittrace.source.locked_frontend import (
     LockedFrontendSpec,
     build_locked_frontend_stage_materialization,
     load_locked_frontend_spec,
 )
-from .temporal_features import load_temporal_feature_config
+from bittrace.source.temporal_features import load_temporal_feature_config
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "backend_architecture_comparison.yaml"
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "experimental" / "backend_architecture_comparison.yaml"
 DEFAULT_RUNS_ROOT = FULL_BINARY_DEFAULT_RUNS_ROOT
 _LABEL_TO_INT = {"healthy": 0, "unhealthy": 1}
 _INT_TO_LABEL = {value: key for key, value in _LABEL_TO_INT.items()}

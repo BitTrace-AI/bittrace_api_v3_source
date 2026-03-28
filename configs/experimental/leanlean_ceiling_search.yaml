@@ -1,0 +1,96 @@
+profile_name: leanlean_ceiling_search
+
+source_profile: ../canonical_source_profile.yaml
+
+baseline_summary_path: ../../runs/canonical_deployment_candidate/REPLACE_WITH_RUN_ID/leanlean_deployment_candidate_summary.json
+
+leanlean_ceiling_search:
+  notes:
+    - "Separate ceiling-search track only; this does not replace the Lean-Lean deployment-candidate workflow."
+    - "Frontend semantics remain fixed to the validation-winning temporal_threshold_36 regime."
+    - "Backend architecture remains Lean-Lean only; no ensembles, multiclass, or persistence runtime are added."
+    - "Train drives search/materialization, val selects the winner, and test remains final reporting only."
+    - "Search goes wider and deeper while still staying deploy-constrained on layer depth and artifact size."
+
+  evaluation:
+    summary_metric_split: test
+    separability_split: train
+    latency_split: test
+    latency_warmup_passes: 2
+    latency_timed_passes: 10
+
+  search:
+    trials_per_candidate: 3
+    search_branches: 10
+    bounded_random_fraction: 0.30
+    winner_replay_branches: 2
+    winner_mutation_branches: 2
+    seed_stride: 101
+
+    selection_spec:
+      primary_metric: fitness
+      tiebreak_metrics: [accuracy, mean_margin]
+
+    evolution:
+      seed: 9100
+      generations: 40
+      population_size: 32
+      mu: 16
+      lam: 16
+      elite_count: 4
+      min_layers: 1
+      max_layers: 3
+      mutation_rate: 0.40
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 10
+      checkpoint: {}
+
+    bounded_random_evolution:
+      seed: 19100
+      generations: 48
+      population_size: 40
+      mu: 20
+      lam: 20
+      elite_count: 5
+      min_layers: 1
+      max_layers: 3
+      mutation_rate: 0.52
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 12
+      checkpoint: {}
+
+    winner_replay_evolution:
+      seed: 29100
+      generations: 44
+      population_size: 32
+      mu: 16
+      lam: 16
+      elite_count: 4
+      min_layers: 1
+      max_layers: 3
+      mutation_rate: 0.40
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 11
+      checkpoint: {}
+
+    winner_mutation_evolution:
+      seed: 39100
+      generations: 52
+      population_size: 40
+      mu: 20
+      lam: 20
+      elite_count: 5
+      min_layers: 1
+      max_layers: 3
+      mutation_rate: 0.54
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 12
+      checkpoint: {}

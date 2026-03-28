@@ -1,2 +1,2 @@
 [console_scripts]
-bittrace-source = bittrace_bearings_v3_source.cli:main
+bittrace = bittrace.cli.main:main

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bittrace-api-v3-source"
 version = "0.3.0"
-description = "Frozen BitTrace V3 source/commercial lane for temporal_threshold_36 + Lean-Lean."
+description = "Canonical BitTrace API with one supported lane and one experimental lane under the `bittrace` package."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 classifiers = [
@@ -21,11 +21,11 @@ dependencies = [
 gpu = ["torch>=2.10"]
 
 [project.scripts]
-bittrace-source = "bittrace_bearings_v3_source.cli:main"
+bittrace = "bittrace.cli.main:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["bittrace*", "bittrace_bearings_v3_source*"]
+include = ["bittrace*"]

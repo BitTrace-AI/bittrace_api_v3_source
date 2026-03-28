@@ -26,7 +26,9 @@ QUIET_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_quiet_sc
 AGGRESSIVE_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_aggressive.yaml"
 SUMMARY_JSON_NAME = "release_smoke_summary.json"
 SUMMARY_MD_NAME = "release_smoke_summary.md"
-SUMMARY_SCHEMA_VERSION = "bittrace-bearings-v3-source-release-smoke-summary-1"
+SUMMARY_SCHEMA_VERSION = "bittrace-release-smoke-summary-1"
+SOURCE_VENV_DIR = PROJECT_ROOT / ".venv_source"
+ISOLATED_VENV_READY_FLAG = "--isolated-venv-ready"
 _KEY_VALUE_KEY_RE = re.compile(r"^[A-Za-z0-9_.\\/-]+$")
 
 
@@ -79,6 +81,12 @@ def _write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def _venv_python(venv_dir: Path) -> Path:
+    if os.name == "nt":
+        return venv_dir / "Scripts" / "python.exe"
+    return venv_dir / "bin" / "python"
+
+
 def _summary_payload(
     *,
     smoke_run_id: str,
@@ -96,6 +104,7 @@ def _summary_payload(
         "summary_dir": str(summary_dir),
         "summary_json_path": str(summary_dir / SUMMARY_JSON_NAME),
         "summary_md_path": str(summary_dir / SUMMARY_MD_NAME),
+        "isolated_source_venv": str(SOURCE_VENV_DIR),
         "python": {
             "executable": sys.executable,
             "version": sys.version,
@@ -113,6 +122,7 @@ def _summary_markdown(payload: dict[str, object]) -> str:
         "",
         f"- Smoke run id: `{payload['smoke_run_id']}`",
         f"- Status: `{payload['status']}`",
+        f"- Isolated source venv: `{payload['isolated_source_venv']}`",
         f"- Python: `{payload['python']['version'].splitlines()[0]}`",
         f"- Supported CLI executable: `{payload['supported_cli_executable']}`",
         f"- Summary JSON: `{payload['summary_json_path']}`",
@@ -187,34 +197,34 @@ def _record_python_compile() -> StepRecord:
     )
 
 
-def _record_import_smoke() -> StepRecord:
-    start = time.monotonic()
-    try:
-        __import__("bittrace")
-        __import__("bittrace.v3")
-        __import__("bittrace_bearings_v3_source")
-    except Exception as exc:  # noqa: BLE001
-        duration = time.monotonic() - start
-        return StepRecord(
-            name="import_smoke",
-            status="FAIL",
-            duration_seconds=duration,
-            note=f"Import smoke failed: {exc}",
-        )
-    duration = time.monotonic() - start
-    return StepRecord(
-        name="import_smoke",
-        status="PASS",
-        duration_seconds=duration,
-        note="Imported bittrace, bittrace.v3, and bittrace_bearings_v3_source.",
-    )
-
-
 def _cli_path() -> Path:
-    candidate = Path(sysconfig.get_path("scripts")) / "bittrace-source"
+    candidate = Path(sysconfig.get_path("scripts")) / "bittrace"
     if os.name == "nt":
         candidate = candidate.with_suffix(".exe")
     return candidate
+
+
+def _running_in_source_venv() -> bool:
+    return Path(sys.prefix).resolve() == SOURCE_VENV_DIR.resolve()
+
+
+def _bootstrap_isolated_venv(argv: list[str]) -> int:
+    print(
+        f"[release-smoke] bootstrapping clean source-lane venv at {SOURCE_VENV_DIR}",
+        flush=True,
+    )
+    subprocess.run(
+        [sys.executable, "-m", "venv", "--clear", str(SOURCE_VENV_DIR)],
+        cwd=PROJECT_ROOT,
+        check=True,
+    )
+    isolated_python = _venv_python(SOURCE_VENV_DIR)
+    result = subprocess.run(
+        [str(isolated_python), str(Path(__file__).resolve()), ISOLATED_VENV_READY_FLAG, *argv],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
+    return result.returncode
 
 
 def _run_command(
@@ -256,6 +266,10 @@ def _run_command(
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == ISOLATED_VENV_READY_FLAG:
+        argv = argv[1:]
+    elif not _running_in_source_venv():
+        return _bootstrap_isolated_venv(argv)
     smoke_run_id = argv[0] if argv else _default_run_id()
     summary_dir = (SUMMARY_ROOT / smoke_run_id).resolve()
     if summary_dir.exists():
@@ -279,7 +293,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         install_step = _run_command(
             name="editable_install",
-            argv=[sys.executable, "-m", "pip", "install", "-e", "."],
+            argv=[sys.executable, "-m", "pip", "install", "-e", ".[gpu]"],
             summary_dir=summary_dir,
         )
         steps.append(install_step)
@@ -312,7 +326,21 @@ def main(argv: list[str] | None = None) -> int:
         if py_compile_step.status != "PASS":
             raise RuntimeError("py_compile failed")
 
-        import_step = _record_import_smoke()
+        import_step = _run_command(
+            name="import_smoke",
+            argv=[
+                sys.executable,
+                "-c",
+                (
+                    "import bittrace, bittrace.experimental, bittrace.source, bittrace.v3; "
+                    "print(f'bittrace={bittrace.__file__}'); "
+                    "print(f'bittrace.experimental={bittrace.experimental.__file__}'); "
+                    "print(f'bittrace.source={bittrace.source.__file__}'); "
+                    "print(f'bittrace.v3={bittrace.v3.__file__}')"
+                ),
+            ],
+            summary_dir=summary_dir,
+        )
         steps.append(import_step)
         if import_step.status != "PASS":
             raise RuntimeError("import smoke failed")
@@ -325,6 +353,42 @@ def main(argv: list[str] | None = None) -> int:
         steps.append(help_step)
         if help_step.status != "PASS":
             raise RuntimeError("CLI help failed")
+
+        stable_help_step = _run_command(
+            name="stable_command_help",
+            argv=[str(cli_path), "campaign", "--help"],
+            summary_dir=summary_dir,
+        )
+        steps.append(stable_help_step)
+        if stable_help_step.status != "PASS":
+            raise RuntimeError("stable command help failed")
+
+        experimental_help_step = _run_command(
+            name="experimental_help",
+            argv=[str(cli_path), "experimental", "--help"],
+            summary_dir=summary_dir,
+        )
+        steps.append(experimental_help_step)
+        if experimental_help_step.status != "PASS":
+            raise RuntimeError("experimental help failed")
+
+        experimental_backend_help_step = _run_command(
+            name="experimental_command_help",
+            argv=[str(cli_path), "experimental", "backend-comparison", "--help"],
+            summary_dir=summary_dir,
+        )
+        steps.append(experimental_backend_help_step)
+        if experimental_backend_help_step.status != "PASS":
+            raise RuntimeError("experimental command help failed")
+
+        module_help_step = _run_command(
+            name="module_help",
+            argv=[sys.executable, "-m", "bittrace", "--help"],
+            summary_dir=summary_dir,
+        )
+        steps.append(module_help_step)
+        if module_help_step.status != "PASS":
+            raise RuntimeError("module help failed")
 
         campaign_step = _run_command(
             name="canonical_campaign",

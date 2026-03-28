@@ -1,4 +1,4 @@
-"""Frozen source-lane helpers for the canonical BitTrace V3 shipping path."""
+"""Frozen source-lane helpers under the public ``bittrace`` namespace."""
 
 from .full_binary_campaign import (
     DEFAULT_CONFIG_PATH as DEFAULT_SOURCE_PROFILE_CONFIG_PATH,

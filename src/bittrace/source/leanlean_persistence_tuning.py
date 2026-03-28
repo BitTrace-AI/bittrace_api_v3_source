@@ -22,7 +22,7 @@ from bittrace.v3 import ContractValidationError
 from ._leanlean_support import _load_lean_artifact_model, _predict_lean_rows
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_quiet_scout.yaml"
 DEFAULT_WINDOW_OUTPUTS_SCHEMA_VERSION = "bittrace-bearings-v3-source-leanlean-window-outputs-1"
 DEFAULT_SUMMARY_SCHEMA_VERSION = "bittrace-bearings-v3-source-leanlean-persistence-tuning-summary-2"

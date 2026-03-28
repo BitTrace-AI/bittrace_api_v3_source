@@ -48,7 +48,7 @@ from .locked_frontend import (
 from .temporal_features import load_temporal_feature_config
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_deployment_candidate.yaml"
 DEFAULT_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_quiet_scout.yaml"
 DEFAULT_RUNS_ROOT = BACKEND_DEFAULT_RUNS_ROOT

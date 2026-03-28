@@ -39,7 +39,7 @@ from .temporal_features import build_temporal_feature_payload, load_temporal_fea
 FILENAME_RE = re.compile(
     r"^(?P<condition>N\d+_M\d+_F\d+)_(?P<bearing_id>[A-Za-z0-9]+)_(?P<recording>\d+)\.mat$"
 )
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_source_profile.yaml"
 DEFAULT_RUNS_ROOT = PROJECT_ROOT / "runs"
 _ADAPTER_PROFILE_ID = "paderborn_binary_mat_v1"

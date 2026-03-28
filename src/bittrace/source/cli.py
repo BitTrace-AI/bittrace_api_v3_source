@@ -39,19 +39,24 @@ from .leanlean_persistence_tuning import (
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="bittrace-source",
+        prog="bittrace",
         description=(
-            "Frozen BitTrace V3 source/commercial lane CLI for the "
+            "Supported BitTrace CLI for the "
             "temporal_threshold_36 + Lean-Lean shipping path."
         ),
         epilog=(
             "Supported surface: canonical campaign, verify/parity, canonical "
-            "deployment-candidate, and the quiet/aggressive persistence profiles. "
-            "Research-only workflows are out of scope for this executable."
+            "deployment-candidate, and the quiet/aggressive persistence profiles."
         ),
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
+    register_supported_commands(subparsers)
+    return parser
 
+
+def register_supported_commands(
+    subparsers: argparse._SubParsersAction[argparse.ArgumentParser],
+) -> None:
     campaign = subparsers.add_parser(
         "campaign",
         help="Run the canonical source-lane freeze/export path.",
@@ -155,7 +160,6 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     verify.set_defaults(handler=_run_verify)
-    return parser
 
 
 def _run_campaign(args: argparse.Namespace) -> int:

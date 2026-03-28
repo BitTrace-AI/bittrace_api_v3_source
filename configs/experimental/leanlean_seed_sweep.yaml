@@ -1,0 +1,10 @@
+profile_name: leanlean_deployment_candidate_seeds
+
+deployment_candidate_config: ../canonical_deployment_candidate.yaml
+
+seeds: [7100, 7101, 7102]
+
+notes:
+  - "Repeat only the Lean-Lean search seed; dataset selection and canonical splits stay fixed."
+  - "Preserve one run root per seed for artifact-level diffing."
+  - "Aggregate test metrics across seeds before any persistence tuning."
