@@ -1,0 +1,39 @@
+profile_name: canonical_deployment_candidate
+
+source_profile: configs/canonical_source_profile.yaml
+
+persistence_tuning_config: configs/persistence_quiet_scout.yaml
+
+leanlean_deployment_candidate:
+  notes:
+    - "This is the only supported model lane for the source/commercial freeze."
+    - "Lean-Lean is locked as the backend and temporal_threshold_36 remains the fixed frontend."
+    - "Train drives search, val selects winners, and test remains reserved for final reporting."
+    - "Packed-64 backend compatibility is allowed only as a transport detail; the semantic frontend identity remains temporal_threshold_36."
+
+  evaluation:
+    summary_metric_split: test
+    separability_split: train
+    latency_split: test
+    latency_warmup_passes: 2
+    latency_timed_passes: 10
+
+  selection_spec:
+    primary_metric: fitness
+    tiebreak_metrics: [accuracy, mean_margin]
+
+  search:
+    seed: 7100
+    generations: 24
+    population_size: 24
+    mu: 12
+    lam: 12
+    elite_count: 3
+    min_layers: 1
+    max_layers: 3
+    mutation_rate: 0.36
+    mutation_rate_schedule: constant
+    selection_mode: tournament
+    tournament_k: 4
+    early_stopping_patience: 6
+    checkpoint: {}

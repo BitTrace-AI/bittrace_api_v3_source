@@ -1,0 +1,275 @@
+profile_name: canonical_source_profile
+
+data:
+  raw_root: /mnt/d/_bearing_eval_scratch
+
+binary_mapping:
+  healthy_regex: '^K[0-9]{3}$'
+  unhealthy_regex: '^(?!K[0-9]{3}$).+'
+
+selection:
+  operating_conditions: []
+  include_bearing_ids: []
+  exclude_bearing_ids: []
+  include_recordings: []
+  deterministic: true
+
+deploy_constraints:
+  target: dsPIC33CK64MC105
+  max_selected_k_per_class: 3
+  notes:
+    - "Locked temporal frontend profile stays deploy-constrained and binary-only."
+    - "Search must stay honest: train drives search, val selects winners, test reports only."
+    - "Frontend variability is disabled for this slice; persistence remains off."
+
+ranking_intent:
+  primary: minimize_healthy_to_unhealthy_fpr
+  secondary: maximize_unhealthy_precision
+  tertiary: maximize_unhealthy_recall
+  quaternary: maximize_unhealthy_f1
+  quinary: maximize_macro_f1
+  notes:
+    - "Ranking remains conservative: suppress false unhealthy alerts first."
+    - "Validation is authoritative for winner selection; test remains reserved for final reporting."
+
+splits:
+  strategy: deterministic_by_recording_index
+  train_recordings: [1,2,3,4,5,6,7,8,9,10,11,12]
+  val_recordings: [13,14,15,16]
+  test_recordings: [17,18,19,20]
+
+backend:
+  lean:
+    backend: gpu
+    allow_backend_fallback: false
+  deep:
+    backend: gpu
+    allow_backend_fallback: false
+
+enable_temporal_features: true
+
+temporal_features:
+  enabled: true
+  channel_name: vibration_1
+  window_size: 256
+  window_anchor: last_complete
+  sample_scale: 4096
+  sample_clip: 32767
+  approx_median_stride: 4
+  clamp_min: -32768
+  clamp_max: 32767
+  rate_scale: 1024
+  slope_scale: 4096
+  spike_rule:
+    multiplier_numerator: 2
+    multiplier_denominator: 1
+  selected_persistence_deltas: [rms, variance]
+  feature_scale_shifts:
+    variance: 8
+    delta_variance: 8
+
+locked_frontend:
+  enabled: true
+  regime_id: temporal_threshold_36
+  label: Temporal threshold 36-bit
+  encoding_regime: temporal_threshold
+  temporal_features_enabled: true
+  threshold_strategy: train_quantiles_v1
+  bit_length: 36
+  selection_source: shipping_lane.temporal_threshold_36
+  notes:
+    - "Frontend is fixed to the frozen temporal_threshold_36 regime for the shipping lane."
+    - "No frontend sweep, legacy hash fallback, or 64-bit temporal variant is part of the supported source lane."
+
+hard_mode:
+  enabled: true
+  include_test_metrics_in_frontend: false
+  deep_smoke:
+    trials: 6
+    search_branches: 5
+    bounded_random_fraction: 0.20
+    winner_replay_branches: 1
+    winner_mutation_branches: 1
+    seed_stride: 101
+    selection_spec:
+      primary_metric: fitness
+      tiebreak_metrics: [accuracy, mean_margin]
+    evolution:
+      seed: 3100
+      generations: 18
+      population_size: 24
+      mu: 12
+      lam: 12
+      elite_count: 3
+      min_layers: 1
+      max_layers: 4
+      mutation_rate: 0.38
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 4
+      early_stopping_patience: 6
+      checkpoint: {}
+    bounded_random_evolution:
+      seed: 13100
+      generations: 20
+      population_size: 28
+      mu: 14
+      lam: 14
+      elite_count: 3
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.48
+      tournament_k: 4
+      early_stopping_patience: 7
+    winner_replay_evolution:
+      seed: 23100
+      generations: 22
+      population_size: 24
+      mu: 12
+      lam: 12
+      elite_count: 3
+      min_layers: 1
+      max_layers: 4
+      mutation_rate: 0.38
+      tournament_k: 4
+      early_stopping_patience: 7
+    winner_mutation_evolution:
+      seed: 33100
+      generations: 24
+      population_size: 28
+      mu: 14
+      lam: 14
+      elite_count: 4
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.46
+      tournament_k: 4
+      early_stopping_patience: 8
+  deep_main_screen:
+    trials: 8
+    search_branches: 5
+    bounded_random_fraction: 0.20
+    winner_replay_branches: 1
+    winner_mutation_branches: 1
+    seed_stride: 211
+    selection_spec:
+      primary_metric: fitness
+      tiebreak_metrics: [accuracy, mean_margin]
+    evolution:
+      seed: 4100
+      generations: 36
+      population_size: 48
+      mu: 24
+      lam: 24
+      elite_count: 5
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.36
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 8
+      checkpoint: {}
+    bounded_random_evolution:
+      seed: 14100
+      generations: 40
+      population_size: 56
+      mu: 28
+      lam: 28
+      elite_count: 6
+      min_layers: 1
+      max_layers: 6
+      mutation_rate: 0.50
+      tournament_k: 5
+      early_stopping_patience: 9
+    winner_replay_evolution:
+      seed: 24100
+      generations: 40
+      population_size: 48
+      mu: 24
+      lam: 24
+      elite_count: 5
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.36
+      tournament_k: 5
+      early_stopping_patience: 9
+    winner_mutation_evolution:
+      seed: 34100
+      generations: 44
+      population_size: 56
+      mu: 28
+      lam: 28
+      elite_count: 6
+      min_layers: 1
+      max_layers: 6
+      mutation_rate: 0.48
+      tournament_k: 5
+      early_stopping_patience: 10
+  capacity_refinement:
+    trials_per_k: 8
+    search_branches: 5
+    bounded_random_fraction: 0.20
+    winner_replay_branches: 1
+    winner_mutation_branches: 1
+    seed_stride: 307
+    selection_spec:
+      primary_metric: fitness
+      tiebreak_metrics: [accuracy, mean_margin]
+    evolution:
+      seed: 5100
+      generations: 30
+      population_size: 40
+      mu: 20
+      lam: 20
+      elite_count: 5
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.36
+      mutation_rate_schedule: constant
+      selection_mode: tournament
+      tournament_k: 5
+      early_stopping_patience: 7
+      checkpoint: {}
+    bounded_random_evolution:
+      seed: 15100
+      generations: 34
+      population_size: 48
+      mu: 24
+      lam: 24
+      elite_count: 6
+      min_layers: 1
+      max_layers: 6
+      mutation_rate: 0.50
+      tournament_k: 5
+      early_stopping_patience: 8
+    winner_replay_evolution:
+      seed: 25100
+      generations: 34
+      population_size: 40
+      mu: 20
+      lam: 20
+      elite_count: 5
+      min_layers: 1
+      max_layers: 5
+      mutation_rate: 0.36
+      tournament_k: 5
+      early_stopping_patience: 8
+    winner_mutation_evolution:
+      seed: 35100
+      generations: 36
+      population_size: 48
+      mu: 24
+      lam: 24
+      elite_count: 6
+      min_layers: 1
+      max_layers: 6
+      mutation_rate: 0.48
+      tournament_k: 5
+      early_stopping_patience: 9
+
+notes:
+  - "Hard-mode full binary campaign with frontend locked to temporal_threshold_36"
+  - "Binary only: healthy vs unhealthy"
+  - "No frontend sweep is permitted in this slice"
+  - "20% bounded random exploration remains explicit, seeded, and range-limited in downstream search"

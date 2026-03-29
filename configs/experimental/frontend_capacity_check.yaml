@@ -1,0 +1,49 @@
+profile_name: frontend_capacity_check
+
+source_profile: source_profiles/frontend_capacity_temporal.yaml
+
+frontend_capacity_check:
+  include_test_metrics_in_frontend: false
+  reference_regime_id: legacy_hash_64
+
+  fixed_evaluator:
+    kind: train_class_medoids
+    selected_k_per_class: 1
+    tie_break_label_order: [healthy, unhealthy]
+
+  assessment:
+    meaningful_delta:
+      healthy_to_unhealthy_fpr: 0.05
+      unhealthy_recall: 0.05
+      unhealthy_f1: 0.05
+      macro_f1: 0.05
+
+  regimes:
+    - regime_id: legacy_hash_64
+      label: Legacy hash 64-bit
+      encoding_regime: legacy_hash
+      temporal_features_enabled: false
+      bit_length: 64
+      notes:
+        - "Reference temporal-off baseline."
+        - "Keeps the existing legacy hash encoder unchanged."
+
+    - regime_id: temporal_threshold_36
+      label: Temporal threshold 36-bit
+      encoding_regime: temporal_threshold
+      temporal_features_enabled: true
+      threshold_strategy: train_quantiles_v1
+      bit_length: 36
+      notes:
+        - "Minimum bounded temporal capacity for the current 18-feature schema."
+        - "Tests whether compressed temporal encoding already improves downstream behavior."
+
+    - regime_id: temporal_threshold_64
+      label: Temporal threshold 64-bit
+      encoding_regime: temporal_threshold
+      temporal_features_enabled: true
+      threshold_strategy: train_quantiles_v1
+      bit_length: 64
+      notes:
+        - "Higher-capacity temporal threshold regime under the same fixed evaluator."
+        - "Used to test whether additional frontend bit budget materially changes downstream metrics."

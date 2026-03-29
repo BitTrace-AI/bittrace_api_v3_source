@@ -1,0 +1,13 @@
+.venv/
+.venv_source/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+release_artifacts/
+runs/
+
+# Internal repo-tracking docs
+docs/REPO_HYGIENE_REPORT.md

@@ -1,0 +1,37 @@
+profile_name: backend_architecture_comparison
+
+source_profile: ../canonical_source_profile.yaml
+
+backend_architecture_comparison:
+  evaluation:
+    summary_metric_split: test
+    separability_split: train
+    latency_split: test
+    latency_warmup_passes: 2
+    latency_timed_passes: 10
+
+  selection_spec:
+    primary_metric: fitness
+    tiebreak_metrics: [accuracy, mean_margin]
+
+  search:
+    seed: 6100
+    generations: 24
+    population_size: 24
+    mu: 12
+    lam: 12
+    elite_count: 3
+    min_layers: 1
+    max_layers: 3
+    mutation_rate: 0.36
+    mutation_rate_schedule: constant
+    selection_mode: tournament
+    tournament_k: 4
+    early_stopping_patience: 6
+    checkpoint: {}
+
+  variants:
+    lean_deep:
+      seed_offset: 0
+    lean_lean:
+      seed_offset: 1000
