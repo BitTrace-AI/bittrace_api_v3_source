@@ -1278,7 +1278,7 @@ def _build_artifact_payload(
     selection_spec: SelectionSpec,
 ) -> dict[str, object]:
     return {
-        "schema_version": "2.0-deep-proof-1",
+        "schema_version": "3.0-deep-proof-1",
         "mode": "deep",
         "scoring_mode": "all_layer_residue_readout",
         "embedding_mode": "concatenated_layer_residues",

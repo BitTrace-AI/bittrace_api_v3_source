@@ -1,101 +1,70 @@
-# BitTrace Canonical API
+# BitTrace API v3 Source
 
-This repository is the canonical BitTrace API source tree.
+BitTrace is a source-available Python package and CLI for generating,
+verifying, and packaging BitTrace artifacts inside the launch-supported source
+lane.
 
-Public identity:
+BitTrace is source-available, not OSI open source.
 
-- package: `bittrace`
+- Evaluation use is allowed.
+- Commercial or production use requires a separate written commercial license.
+
+## Canonical Reference
+
+Technical truth lives in [`docs/HANDBOOK.md`](docs/HANDBOOK.md).
+
+If another repo document conflicts with the handbook, the handbook wins. The
+other docs are intentionally shorter and role-specific.
+
+## Public Surface
+
+- import namespace: `bittrace`
 - CLI: `bittrace`
-- module entrypoint: `python -m bittrace`
+- module fallback: `python -m bittrace`
+- installed distribution name: `bittrace-api-v3-source`
 
-There is one public package surface only:
-
-- `bittrace`
-- `bittrace.source` for the supported/commercial lane
-- `bittrace.experimental` for retained in-house research workflows
-- `bittrace.v3` for the shared V3 contracts and artifacts
-
-Python support remains intentionally narrow: Python `3.12.x` only.
-
-## Supported Lane
-
-Top-level supported commands stay unchanged:
+Supported stable workflows:
 
 - `bittrace campaign`
 - `bittrace verify`
 - `bittrace deployment-candidate`
 - `bittrace persistence`
 
-Supported stable behavior:
+Experimental workflows remain under `bittrace experimental ...` and are
+outside the supported commercial lane.
 
-- frontend: `temporal_threshold_36`
-- backend: `Lean-Lean`
-- persistence profiles:
-  - `quiet_scout`: `i1 / d1 / y6 / r12 / no-latch`
-  - `aggressive`: `i1 / d1 / y3 / r7 / no-latch`
+## Versioning
 
-Stable configs live directly under `configs/`.
+`BitTrace API v3` names the frozen repository and product generation.
 
-## Experimental Lane
+The Python distribution `bittrace-api-v3-source` follows its own semver release
+line inside that v3 generation. A package release such as `0.3.1` is still the
+same BitTrace API v3 public surface unless the supported `bittrace` import or
+CLI contract changes.
 
-Retained research workflows now live in the same repo/package/CLI, but only under the experimental lane:
+## Documentation
 
-- `bittrace experimental backend-comparison`
-- `bittrace experimental frontend-capacity-check`
-- `bittrace experimental seed-sweep`
-- `bittrace experimental leanlean-max-search`
-- `bittrace experimental leanlean-deep-layer-max-search`
-- `bittrace experimental leanlean-ceiling-search`
-- `bittrace experimental leandeep-max-search`
+| Use Case | Document |
+| --- | --- |
+| Fastest repo-native setup and smoke validation | [`docs/QUICKSTART.md`](docs/QUICKSTART.md) |
+| Canonical technical reference | [`docs/HANDBOOK.md`](docs/HANDBOOK.md) |
+| Command, YAML, and direct-runtime cheat sheet | [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) |
+| Supported public surface | [`SUPPORTED_SCOPE.md`](SUPPORTED_SCOPE.md) |
+| Deployment ownership boundary | [`DEPLOYMENT_BOUNDARY.md`](DEPLOYMENT_BOUNDARY.md) |
+| Working effectively with an AI assistant | [`docs/AI_ASSISTANT_GUIDE.md`](docs/AI_ASSISTANT_GUIDE.md) |
+| Release-facing checks and packaging | [`docs/RELEASE_WORKFLOW.md`](docs/RELEASE_WORKFLOW.md) |
+| Release checklist and cut prep | [`docs/releases/RELEASE_CHECKLIST.md`](docs/releases/RELEASE_CHECKLIST.md) |
+| Change history | [`CHANGELOG.md`](CHANGELOG.md) |
+| Current limitations | [`KNOWN_ISSUES.md`](KNOWN_ISSUES.md) |
+| Evaluation and commercial terms | [`LICENSE.md`](LICENSE.md) |
+| Patent notice wording | [`NOTICE_PATENT_PENDING.md`](NOTICE_PATENT_PENDING.md) |
 
-Experimental configs live under `configs/experimental/`.
-Several of the retained research configs intentionally contain `REPLACE_WITH_RUN_ID` placeholders because they consume prior run artifacts and are not part of the stable release bundle.
+Start with [`docs/README_DOC_MAP.md`](docs/README_DOC_MAP.md) if you want the
+reading order first.
 
-## Quick Start
+## Boundary Reminder
 
-Do not reuse a previously created or shared BitTrace virtualenv for validation. Create a clean repo-local `.venv_source` so the installed `bittrace` package comes from this checkout.
-
-```bash
-rm -rf .venv_source
-python3.12 -m venv .venv_source
-. .venv_source/bin/activate
-python -m pip install -e .
-bittrace --help
-bittrace experimental --help
-python -m bittrace --help
-python -c "import bittrace, bittrace.source, bittrace.experimental, bittrace.v3"
-```
-
-Supported deployment-candidate preparation:
-
-```bash
-bittrace deployment-candidate \
-  --config configs/canonical_deployment_candidate.yaml \
-  --run-id manual_candidate_prepare \
-  --prepare-only
-```
-
-Experimental backend comparison preparation:
-
-```bash
-bittrace experimental backend-comparison \
-  --config configs/experimental/backend_architecture_comparison.yaml \
-  --run-id manual_backend_compare \
-  --prepare-only
-```
-
-Bounded release smoke:
-
-```bash
-python scripts/run_release_smoke.py
-```
-
-The smoke runner recreates `.venv_source` when needed and installs `.[gpu]` there because the canonical source profile requests the GPU backend.
-
-## Docs
-
-- `SUPPORTED_SCOPE.md`: stable lane versus experimental lane
-- `DEPLOYMENT_BOUNDARY.md`: commercial deployment boundary versus retained research tooling
-- `docs/VERIFICATION_WORKFLOW.md`: supported verification workflow and packaging smoke
-- `docs/RELEASE_WORKFLOW.md`: stable release workflow
-- `docs/EXPERIMENTAL_WORKFLOWS.md`: retained research commands and config templates
+Use [`SUPPORTED_SCOPE.md`](SUPPORTED_SCOPE.md) and
+[`DEPLOYMENT_BOUNDARY.md`](DEPLOYMENT_BOUNDARY.md) for support and ownership
+questions. Use the handbook for workflow, contract, artifact, and
+troubleshooting detail.

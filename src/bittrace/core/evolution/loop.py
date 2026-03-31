@@ -1,4 +1,4 @@
-"""Shared outer evolution loop for BitTrace API 2.0.
+"""Shared outer evolution loop for BitTrace API 3.0.
 
 This module intentionally stops at the engine-agnostic outer loop. Lean and
 deep candidates plug in through initializer, mutator, and evaluator callables.
