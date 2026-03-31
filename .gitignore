@@ -8,3 +8,6 @@ dist/
 *.egg-info/
 release_artifacts/
 runs/
+
+# Internal repo-tracking docs
+docs/REPO_HYGIENE_REPORT.md

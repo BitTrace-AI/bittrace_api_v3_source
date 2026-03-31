@@ -999,7 +999,7 @@ def _build_artifact_payload(
     selection_spec: SelectionSpec,
 ) -> dict[str, object]:
     return {
-        "schema_version": "2.0-lean-proof-1",
+        "schema_version": "3.0-lean-proof-1",
         "mode": "lean",
         "scoring_mode": "final_layer_only",
         "inputs": {

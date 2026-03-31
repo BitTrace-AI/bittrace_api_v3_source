@@ -1,4 +1,4 @@
-"""Strict shared config contract for BitTrace API 2.0.
+"""Strict shared config contract for BitTrace API 3.0.
 
 Shared contract:
 - `dataset`
@@ -116,7 +116,7 @@ _DEEP_REJECTIONS = {
 }
 _FRONTEND_REJECTIONS = {
     field: (
-        f"`frontend.{field}` is not supported in API 2.0 yet. The only live "
+        f"`frontend.{field}` is not supported in API 3.0 yet. The only live "
         "frontend config field for this task is `frontend.mode`."
     )
     for field in _DEFERRED_FRONTEND_FIELDS
@@ -124,7 +124,7 @@ _FRONTEND_REJECTIONS = {
 
 
 class ConfigValidationError(ValueError):
-    """Raised when a config file violates the strict API 2.0 schema."""
+    """Raised when a config file violates the strict API 3.0 schema."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -501,7 +501,7 @@ class LoggingConfig:
 
 @dataclass(frozen=True, slots=True)
 class BitTraceConfig:
-    """Canonical shared API 2.0 config tree."""
+    """Canonical shared API 3.0 config tree."""
 
     dataset: DatasetConfig
     frontend: FrontendConfig
@@ -547,7 +547,7 @@ class BitTraceConfig:
 
 
 def parse_config(data: Mapping[str, object]) -> BitTraceConfig:
-    """Validate an in-memory mapping against the strict API 2.0 schema."""
+    """Validate an in-memory mapping against the strict API 3.0 schema."""
 
     return BitTraceConfig.from_mapping(_require_mapping(data, path="<root>"))
 
