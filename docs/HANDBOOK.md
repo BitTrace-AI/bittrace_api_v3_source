@@ -1,7 +1,7 @@
 # BitTrace Handbook
 
 This handbook is the only canonical technical reference for the current
-BitTrace API 3.0 repository.
+BitTrace API v3 source repository.
 
 If another repo document conflicts with this handbook, this handbook wins. The
 other docs are intentionally shorter and role-specific.
@@ -60,6 +60,15 @@ Experimental commands remain under:
 The editable install metadata name in `pyproject.toml` is
 `bittrace-api-v3-source`. That does not change the supported public import
 namespace or CLI surface.
+
+## Versioning Note
+
+`BitTrace API v3` identifies the frozen repository and product generation.
+
+The Python distribution `bittrace-api-v3-source` uses its own semver release
+line inside that v3 generation. A package version such as `0.3.1` is a source
+distribution release for the same stable v3 public surface. It does not rename
+the supported `bittrace` import namespace or the `bittrace` CLI.
 
 ## Commercial Posture
 
@@ -1471,7 +1480,7 @@ Use a fresh run id every time. The CLI rejects reusing a non-empty run root.
 ## Artifact Reference
 
 This section explains the small set of artifacts that matter most in the stable
-API 3.0 workflow.
+v3 workflow.
 
 ### `bt3.campaign_request.json`
 
