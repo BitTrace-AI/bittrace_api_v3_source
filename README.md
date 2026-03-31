@@ -1,4 +1,4 @@
-# BitTrace API
+# BitTrace API v3 Source
 
 BitTrace is a source-available Python package and CLI for generating,
 verifying, and packaging BitTrace artifacts inside the launch-supported source
@@ -33,9 +33,18 @@ Supported stable workflows:
 Experimental workflows remain under `bittrace experimental ...` and are
 outside the supported commercial lane.
 
+## Versioning
+
+`BitTrace API v3` names the frozen repository and product generation.
+
+The Python distribution `bittrace-api-v3-source` follows its own semver release
+line inside that v3 generation. A package release such as `0.3.1` is still the
+same BitTrace API v3 public surface unless the supported `bittrace` import or
+CLI contract changes.
+
 ## Documentation
 
-| Need | Home |
+| Use Case | Document |
 | --- | --- |
 | Fastest repo-native setup and smoke validation | [`docs/QUICKSTART.md`](docs/QUICKSTART.md) |
 | Canonical technical reference | [`docs/HANDBOOK.md`](docs/HANDBOOK.md) |
@@ -44,6 +53,9 @@ outside the supported commercial lane.
 | Deployment ownership boundary | [`DEPLOYMENT_BOUNDARY.md`](DEPLOYMENT_BOUNDARY.md) |
 | Working effectively with an AI assistant | [`docs/AI_ASSISTANT_GUIDE.md`](docs/AI_ASSISTANT_GUIDE.md) |
 | Release-facing checks and packaging | [`docs/RELEASE_WORKFLOW.md`](docs/RELEASE_WORKFLOW.md) |
+| Release checklist and cut prep | [`docs/releases/RELEASE_CHECKLIST.md`](docs/releases/RELEASE_CHECKLIST.md) |
+| Change history | [`CHANGELOG.md`](CHANGELOG.md) |
+| Current limitations | [`KNOWN_ISSUES.md`](KNOWN_ISSUES.md) |
 | Evaluation and commercial terms | [`LICENSE.md`](LICENSE.md) |
 | Patent notice wording | [`NOTICE_PATENT_PENDING.md`](NOTICE_PATENT_PENDING.md) |
 

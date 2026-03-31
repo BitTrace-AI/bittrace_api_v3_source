@@ -42,7 +42,20 @@ The stable launch surface must remain:
 - `bittrace deployment-candidate`
 - `bittrace persistence`
 
-## 3. Run The Bounded Release Smoke
+## 3. Run The Automated CI Smoke
+
+Run the lightweight repo-local smoke path that CI uses:
+
+```bash
+python scripts/run_ci_smoke.py
+```
+
+This path stays CPU-friendly. It validates the installed `bittrace` console
+script, the `python -m bittrace` fallback, the stable help surface, the
+experimental help boundary, and import/compile smoke without requiring the
+private raw dataset path from the canonical source profile.
+
+## 4. Run The Bounded Release Smoke
 
 Standard invocation:
 
@@ -71,7 +84,11 @@ The smoke runner:
 - smoke-checks `python -m bittrace --help`
 - runs the stable workflow family end to end
 
-## 4. Release-Smoke Outputs
+The full release smoke remains a manual release gate because it bootstraps an
+isolated `.venv_source`, installs `.[gpu]`, and runs the stable workflow end to
+end.
+
+## 5. Release-Smoke Outputs
 
 Release-smoke outputs are written under:
 
@@ -99,7 +116,7 @@ Also inspect relevant logs:
 
 Matching `*.stderr.log` files are written beside them.
 
-## 5. Manual Stable Command Order
+## 6. Manual Stable Command Order
 
 If you need to run the stable path one step at a time, use this order:
 
@@ -113,7 +130,7 @@ bittrace persistence --config configs/persistence_aggressive.yaml --source-run-r
 
 Use a fresh run id every time. The CLI rejects non-empty run roots.
 
-## 6. Launch-Docs Checklist
+## 7. Launch-Docs Checklist
 
 Before release-bundle assembly, confirm the following files exist and agree with
 the actual repo:
@@ -129,8 +146,10 @@ the actual repo:
 - [`docs/AI_ASSISTANT_GUIDE.md`](AI_ASSISTANT_GUIDE.md)
 - [`NOTICE_PATENT_PENDING.md`](../NOTICE_PATENT_PENDING.md)
 - [`LICENSE.md`](../LICENSE.md)
+- [`CHANGELOG.md`](../CHANGELOG.md)
+- [`KNOWN_ISSUES.md`](../KNOWN_ISSUES.md)
 
-## 7. Commercial And Notice Checklist
+## 8. Commercial And Notice Checklist
 
 Before release, confirm:
 
@@ -147,7 +166,7 @@ Preferred patent wording:
 > methods and systems are the subject of one or more pending U.S. patent
 > applications.
 
-## 8. Experimental Boundary Checklist
+## 9. Experimental Boundary Checklist
 
 Before release, confirm:
 
@@ -156,7 +175,7 @@ Before release, confirm:
 - experimental configs stay under `configs/experimental/`
 - launch docs do not present experimental workflows as stable commitments
 
-## 9. Ignored-Artifacts Check
+## 10. Ignored-Artifacts Check
 
 The repo currently ignores:
 
