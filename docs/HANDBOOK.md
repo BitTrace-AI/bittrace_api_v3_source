@@ -952,7 +952,7 @@ Boundary:
 
 - the stable lane is binary
 - if your project cannot honestly reduce to the binary contract, you are
-  outside the stable framework posture documented here
+  outside the documented supported stable lane
 
 #### `selection`
 
