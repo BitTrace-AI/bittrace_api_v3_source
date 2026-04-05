@@ -31,7 +31,7 @@ Versioning note:
 
 - The stable public import namespace remains `bittrace`.
 - The stable public CLI remains `bittrace`.
-- The stable stable-lane commands remain `campaign`, `verify`,
+- The stable commands remain `campaign`, `verify`,
   `deployment-candidate`, and `persistence`.
 - The current documented supported stable lane remains the frozen
   `temporal_threshold_36` + `Lean-Lean` reference path.
