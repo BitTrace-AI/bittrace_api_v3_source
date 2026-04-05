@@ -67,7 +67,7 @@ def register_experimental_commands(
         help="Run experimental or in-house research workflows.",
         description=(
             "Experimental and in-house BitTrace workflows. These commands are retained in "
-            "the canonical repo/package but are not part of the supported commercial lane."
+            "the canonical repo/package but are not part of the supported commercial posture."
         ),
         epilog=(
             "No stability guarantees apply under `bittrace experimental ...`. Configs, "

@@ -309,7 +309,7 @@ def write_leanlean_ceiling_search_plan(
             "semantic_bit_length": comparison.shared_bundle.semantic_bit_length,
             "packed_bit_length": comparison.shared_bundle.packed_bit_length,
             "packed64_compatibility": True,
-            "preserves_temporal_threshold_36_identity": True,
+            "preserves_legacy_temporal_threshold_36_identity": True,
         },
         "experiment_track": {
             "kind": "leanlean_ceiling_search",

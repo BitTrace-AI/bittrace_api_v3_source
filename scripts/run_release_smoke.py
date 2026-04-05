@@ -20,8 +20,8 @@ import time
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RUNS_ROOT = PROJECT_ROOT / "runs"
 SUMMARY_ROOT = RUNS_ROOT / "release_smoke"
-SOURCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_source_profile.yaml"
-DEPLOYMENT_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_deployment_candidate.yaml"
+SOURCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "legacy_paderborn_reference_source_profile.yaml"
+DEPLOYMENT_CONFIG_PATH = PROJECT_ROOT / "configs" / "legacy_paderborn_reference_deployment_candidate.yaml"
 QUIET_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_quiet_scout.yaml"
 AGGRESSIVE_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_aggressive.yaml"
 SUMMARY_JSON_NAME = "release_smoke_summary.json"

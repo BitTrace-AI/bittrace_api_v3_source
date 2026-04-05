@@ -1,4 +1,4 @@
-profile_name: canonical_source_profile
+profile_name: legacy_paderborn_reference_source_profile
 
 data:
   raw_root: /mnt/d/_bearing_eval_scratch
@@ -18,9 +18,9 @@ deploy_constraints:
   target: dsPIC33CK64MC105
   max_selected_k_per_class: 3
   notes:
-    - "Locked temporal frontend profile stays deploy-constrained and binary-only."
+    - "Legacy Paderborn reference profile stays deploy-constrained and binary-only."
     - "Search must stay honest: train drives search, val selects winners, test reports only."
-    - "Frontend variability is disabled for this slice; persistence remains off."
+    - "Frontend variability is disabled for this legacy reference slice; persistence remains off."
 
 ranking_intent:
   primary: minimize_healthy_to_unhealthy_fpr
@@ -76,10 +76,11 @@ locked_frontend:
   temporal_features_enabled: true
   threshold_strategy: train_quantiles_v1
   bit_length: 36
-  selection_source: shipping_lane.temporal_threshold_36
+  selection_source: legacy_paderborn_reference.temporal_threshold_36
   notes:
-    - "Frontend is fixed to the frozen temporal_threshold_36 regime for the shipping lane."
-    - "No frontend sweep, legacy hash fallback, or 64-bit temporal variant is part of the supported source lane."
+    - "Frontend is fixed to the legacy temporal_threshold_36 regime for the historical Paderborn reference path."
+    - "Changing this leaves the legacy reference path; it does not mean BitTrace core cannot support other project-specific front gates or adapters."
+    - "No frontend sweep, legacy hash fallback, or 64-bit temporal variant is part of this legacy reference profile."
 
 hard_mode:
   enabled: true

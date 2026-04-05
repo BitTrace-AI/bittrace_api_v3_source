@@ -1,6 +1,6 @@
 profile_name: backend_architecture_comparison
 
-source_profile: ../canonical_source_profile.yaml
+source_profile: ../legacy_paderborn_reference_source_profile.yaml
 
 backend_architecture_comparison:
   evaluation:

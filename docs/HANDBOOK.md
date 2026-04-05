@@ -14,7 +14,7 @@ Use it to answer:
 - what exact workflow you run
 - what artifacts matter
 - what BitTrace owns versus what integration still owns
-- when you are still inside the supported lane versus outside it
+- when you are still inside the stable framework boundary versus outside it
 
 The goal of this document is practical: a reasonably trained technical user,
 working with the repo and an AI tool or agent, should be able to produce a
@@ -88,7 +88,7 @@ Preferred patent wording:
 
 ## Supported Commercial Lane
 
-The supported commercial deployment lane is:
+The repo currently ships one supported stable commercial lane:
 
 - frontend: `temporal_threshold_36`
 - backend: `Lean-Lean`
@@ -101,6 +101,30 @@ Important boundaries:
 - experimental commands are not part of the supported commercial lane
 - custom adapters, custom label postures, or custom front gates are project
   work unless the repo and docs explicitly freeze them as supported
+
+## Reference Lane vs API Core
+
+This handbook documents the supported lane in detail because supportability
+requires a frozen lane.
+
+BitTrace core is the packed-bit training, search, artifact, freeze/export, and
+verification framework surfaced by the public `bittrace` CLI and `bittrace`
+import namespace.
+
+The supported stable lane is not the whole theoretical BitTrace modeling
+surface.
+
+The current supported stable lane is the documented reference path:
+
+- frontend: `temporal_threshold_36`
+- backend: `Lean-Lean`
+
+Do not confuse "fixed in the canonical supported profile" with "universally
+required by BitTrace."
+
+Custom front gates, custom adapters, custom label postures, and other
+project-specific modeling work may exist, but they are outside the supported
+stable lane unless they are separately frozen and documented as supported.
 
 ## Start Here
 
@@ -128,7 +152,8 @@ The handbook is written so that a reasonably trained practitioner with basic
 AI or ML background can use BitTrace and an AI assistant to:
 
 - define a project kickoff packet
-- stage or adapt project data into the supported front gate
+- stage or adapt project data into the supported reference front gate or into a
+  clearly project-defined front gate
 - run the stable BitTrace workflow
 - inspect the right artifacts
 - produce a deployable-ready handoff package
@@ -301,9 +326,10 @@ Each waveform reference must resolve through exactly one of these forms:
 An encoded packed row is the deterministic integer row emitted by the frontend
 after a canonical record has passed through the chosen frontend contract.
 
-For the supported commercial lane:
+For any given project:
 
-- the semantic frontend identity is `temporal_threshold_36`
+- the semantic frontend identity must be declared explicitly in the project
+  contract
 - the packed transport row format is `packed_int_lsb0`
 - the shared backend bundle is carried in a packed 64-bit transport shape
 
@@ -580,14 +606,14 @@ This layer does not define:
 
 `WaveformPayloadRef` is the pointer layer, not the whole ingestion pipeline.
 
-## Temporal Feature Contract
+## Legacy/Reference Temporal Feature Contract
 
-This is the current temporal feature contract used by the stable
-`temporal_threshold_36` frontend.
+This section documents the legacy temporal feature contract used by the
+historical Paderborn reference path.
 
-### Stable Frontend Identity
+### Legacy Frontend Identity
 
-The supported semantic frontend identity is:
+The legacy semantic frontend identity for that reference path is:
 
 - `temporal_threshold_36`
 
@@ -597,8 +623,9 @@ The current row transport format is:
 - `packed_int_lsb0`
 - carried in a packed 64-bit transport shape
 
-The semantic frontend itself is driven by the deterministic temporal feature
-vector described below.
+That legacy reference frontend is driven by the deterministic temporal feature
+vector described below. New projects should not treat it as the default API
+identity.
 
 ### Extraction Steps
 
@@ -727,7 +754,7 @@ Bits are packed in:
 
 ### What Must Remain Stable For Parity
 
-These must remain stable if you expect parity with the frozen frontend:
+These must remain stable if you expect parity with the legacy frozen frontend:
 
 - `channel_name`
 - `window_size`
@@ -761,8 +788,9 @@ The practical stable labels are:
 - `healthy`
 - `unhealthy`
 
-That binary posture is what the stable workflow, deployment-candidate lane, and
-shipped persistence profiles are aligned to.
+That binary posture is what the stable workflow and shipped persistence
+profiles are aligned to in the current supported lane. A project's front gate
+is still project-owned outside that lane.
 
 ### Binary Mapping In The Stable Lane
 
@@ -826,16 +854,20 @@ Your kickoff packet should state:
 
 ## Source Profile Reference
 
-The current shipped reference is:
+BitTrace does not treat one shipped source profile as universal API truth.
+Project source profiles are project-owned.
 
-- `configs/canonical_source_profile.yaml`
+The retained historical bearing reference profile lives under:
+
+- `configs/legacy_paderborn_reference_source_profile.yaml`
 
 ### Edit Status Legend
 
 - `user-editable`: normal project adaptation field
 - `conditionally editable`: valid to change, but the change alters workflow
   assumptions or moves you closer to adapter or custom-project work
-- `fixed`: treat as frozen if you want the supported stable lane
+- `fixed`: treat as frozen only if you are intentionally reproducing that
+  retained reference path
 
 ### Top-Level Sections
 
@@ -849,9 +881,9 @@ The current shipped reference is:
 | `ranking_intent` | conditionally editable | How winner selection is prioritized |
 | `splits` | user-editable | Deterministic train, val, and test assignment |
 | `backend` | conditionally editable | CPU or GPU execution choice for Lean and Deep stages |
-| `enable_temporal_features` | fixed | Must remain enabled for the stable temporal frontend |
-| `temporal_features` | conditionally editable | Exact temporal feature contract |
-| `locked_frontend` | fixed | Frozen stable frontend identity and encoding posture |
+| `enable_temporal_features` | fixed | Must remain enabled if you are reproducing the legacy temporal reference path |
+| `temporal_features` | conditionally editable | Exact temporal feature contract for a declared front gate |
+| `locked_frontend` | fixed | Frozen frontend identity when a project intentionally locks one |
 | `hard_mode` | conditionally editable | Search-space and stage-search settings for the campaign |
 
 ### Section Reference
@@ -920,7 +952,7 @@ Boundary:
 
 - the stable lane is binary
 - if your project cannot honestly reduce to the binary contract, you are
-  outside the supported stable lane
+  outside the stable framework posture documented here
 
 #### `selection`
 
@@ -1067,7 +1099,7 @@ Important fields:
 
 Purpose:
 
-- defines the exact temporal feature contract that feeds the stable frontend
+- defines the exact temporal feature contract that feeds the selected frontend
 
 Safe edits:
 
@@ -1079,6 +1111,8 @@ Boundary:
 - any change here changes the frontend input contract
 - parity, golden vectors, and deployment assumptions must all be interpreted
   against the new feature contract
+- changing these settings is normal project work when you are defining a
+  project-specific front gate
 
 #### `locked_frontend`
 
@@ -1097,11 +1131,11 @@ Important fields:
 
 Purpose:
 
-- freezes the stable frontend identity to `temporal_threshold_36`
+- freezes the frontend identity for a locked-profile workflow
 
 Boundary:
 
-- changing this is no longer the supported stable lane
+- changing this means you are no longer reproducing the same locked profile
 
 #### `hard_mode`
 
@@ -1205,7 +1239,7 @@ Practical stable usage:
 
 ```bash
 bittrace campaign \
-  --config configs/canonical_source_profile.yaml \
+  --config configs/<project_source_profile>.yaml \
   --run-id <campaign_run_id> \
   --runs-root runs \
   --campaign-seed 31
@@ -1219,7 +1253,7 @@ Required inputs:
 
 Default behavior from the code:
 
-- default config: `configs/canonical_source_profile.yaml`
+- no public default config; pass an explicit project source-profile path
 - default runs root: `runs/`
 - default campaign seed: `31`
 - `--prepare-only` writes the request and stage config scaffolding without
@@ -1227,7 +1261,7 @@ Default behavior from the code:
 
 Run-root layout when using the canonical config:
 
-- `runs/canonical_source_profile/<campaign_run_id>/`
+- `runs/<project_source_profile>/<campaign_run_id>/`
 
 Successful stdout includes key-value lines such as:
 
@@ -1267,7 +1301,7 @@ bittrace verify [--output-dir OUTPUT_DIR] run_root
 Practical stable usage:
 
 ```bash
-bittrace verify runs/canonical_source_profile/<campaign_run_id>
+bittrace verify runs/<project_source_profile>/<campaign_run_id>
 ```
 
 Required inputs:
@@ -1307,7 +1341,7 @@ Do not continue if:
 
 Purpose:
 
-- run the locked `temporal_threshold_36` plus `Lean-Lean` deployment search
+- run a deployment-candidate search from an explicit project config
 - emit the deployment summary
 - scaffold persistence-prep artifacts
 
@@ -1321,7 +1355,7 @@ Practical stable usage:
 
 ```bash
 bittrace deployment-candidate \
-  --config configs/canonical_deployment_candidate.yaml \
+  --config configs/<project_deployment_candidate>.yaml \
   --run-id <deployment_run_id> \
   --runs-root runs \
   --search-seed 7100
@@ -1335,7 +1369,7 @@ Required inputs:
 
 Default behavior from the code:
 
-- default config: `configs/canonical_deployment_candidate.yaml`
+- no public default config; pass an explicit project deployment-candidate path
 - default runs root: `runs/`
 - `--search-seed` is optional; when omitted, the config search seed is used
 - the canonical deployment config currently sets the search seed to `7100`
@@ -1344,14 +1378,14 @@ Default behavior from the code:
 
 Run-root layout when using the canonical config:
 
-- `runs/canonical_deployment_candidate/<deployment_run_id>/`
+- `runs/<project_deployment_candidate>/<deployment_run_id>/`
 
 Successful stdout includes key-value lines such as:
 
 - `run_root=...`
 - `plan_path=...`
 - `source_profile_path=...`
-- `frontend_regime=temporal_threshold_36`
+- `frontend_regime=<declared_project_frontend>`
 - `semantic_bit_length=36`
 - `comparison_bundle_bit_length=64`
 - `leanlean_search_seed=7100`
@@ -1362,7 +1396,7 @@ Successful stdout includes key-value lines such as:
 - `summary_md_path=...`
 
 The `comparison_bundle_bit_length=64` value is expected. It is a packed bundle
-detail, not a different supported frontend regime.
+detail, not a different semantic frontend regime.
 
 Key outputs:
 
@@ -1399,7 +1433,7 @@ Stable quiet scout usage:
 ```bash
 bittrace persistence \
   --config configs/persistence_quiet_scout.yaml \
-  --source-run-root runs/canonical_deployment_candidate/<deployment_run_id> \
+  --source-run-root runs/<project_deployment_candidate>/<deployment_run_id> \
   --run-id <quiet_run_id>
 ```
 
@@ -1408,7 +1442,7 @@ Stable aggressive usage:
 ```bash
 bittrace persistence \
   --config configs/persistence_aggressive.yaml \
-  --source-run-root runs/canonical_deployment_candidate/<deployment_run_id> \
+  --source-run-root runs/<project_deployment_candidate>/<deployment_run_id> \
   --run-id <aggressive_run_id>
 ```
 
@@ -1761,9 +1795,10 @@ The current experimental lanes still rely on the same general front gate:
 4. backend comparison or search operates on those packed rows
 
 Most current experimental Lean-Lean and Lean-Deep searches still reuse a locked
-frontend from the source profile. `frontend-capacity-check` varies frontend
-capacity, but it still starts from canonical records and the same general
-bundle-to-frontend-to-packed-row path.
+frontend from the retained reference path or from another explicitly declared
+project profile.
+`frontend-capacity-check` varies frontend capacity, but it still starts from
+canonical records and the same general bundle-to-frontend-to-packed-row path.
 
 ### Which Experimental Command To Use
 
@@ -1938,8 +1973,8 @@ prompt structure.
   and parity report
 - parity: agreement check between expected frozen outputs and actual runtime
   outputs
-- deployment candidate: stable locked `temporal_threshold_36` plus `Lean-Lean`
-  search and summary workflow
+- deployment candidate: stable search and summary workflow driven by an
+  explicit project deployment config
 - persistence: replay step that turns per-record classifier outputs into a
   supported alert policy behavior
 - supported lane: documented stable public workflow and commercial deployment

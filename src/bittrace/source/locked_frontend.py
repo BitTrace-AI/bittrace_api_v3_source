@@ -45,7 +45,8 @@ _LOCKED_FRONTEND_RANKING_POLICY = {
     "frontend_sweep_enabled": False,
     "selection_note": (
         "A single frozen frontend candidate is injected into the canonical frontend "
-        "stage for the supported shipping lane."
+        "stage for a retained supported/reference lane rather than as a universal "
+        "BitTrace frontend identity."
     ),
 }
 
@@ -120,7 +121,7 @@ def load_locked_frontend_spec(profile: Mapping[str, Any]) -> LockedFrontendSpec 
         minimum=1,
     )
     selection_source = _require_non_empty_string(
-        raw.get("selection_source", "shipping_lane.temporal_threshold_36"),
+        raw.get("selection_source", "legacy_paderborn_reference.temporal_threshold_36"),
         field_name="locked_frontend.selection_source",
     )
     notes = _require_string_sequence(

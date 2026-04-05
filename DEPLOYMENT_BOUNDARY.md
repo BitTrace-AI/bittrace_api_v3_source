@@ -17,6 +17,8 @@ BitTrace ships:
 
 - the source-available repository
 - the public `bittrace` CLI and `bittrace` import namespace
+- the packed-bit training, artifact, freeze/export, and verification framework
+  behind that public surface
 - the supported stable workflow family:
   - `bittrace campaign`
   - `bittrace verify`
@@ -26,6 +28,9 @@ BitTrace ships:
 - the fixed commercial deployment lane:
   - frontend `temporal_threshold_36`
   - backend `Lean-Lean`
+  - quiet scout persistence `i1 / d1 / y6 / r12 / no-latch`
+  - aggressive persistence `i1 / d1 / y3 / r7 / no-latch`
+- the shipped persistence profiles:
   - quiet scout persistence `i1 / d1 / y6 / r12 / no-latch`
   - aggressive persistence `i1 / d1 / y3 / r7 / no-latch`
 
@@ -47,24 +52,22 @@ Not included in the base source lane:
 ## What The Supported Commercial Lane Means
 
 For launch, the supported commercial deployment lane is the fixed
-`temporal_threshold_36` + `Lean-Lean` path represented by:
+`temporal_threshold_36` + `Lean-Lean` path represented by the stable
+deployment-candidate workflow and the two shipped persistence profiles.
 
-- `configs/canonical_deployment_candidate.yaml`
-- `configs/persistence_quiet_scout.yaml`
-- `configs/persistence_aggressive.yaml`
+`bittrace campaign` and `bittrace verify` remain supported stable workflows,
+but they serve the canonical source-lane freeze/export and parity-evidence
+path. They are not an alternate commercial deployment lane.
 
-`bittrace campaign` and `bittrace verify` remain supported stable workflows, but
-they serve the canonical source-lane freeze/export and parity-evidence path.
-They are not an alternate commercial deployment lane.
+That supported commercial lane is the frozen reference path for supported
+behavior. It should not be read as meaning BitTrace core only exists when a
+project uses that exact front gate and backend pairing.
 
-The deployment-candidate workflow may report:
-
-- `frontend_regime=temporal_threshold_36`
-- `semantic_bit_length=36`
-- `comparison_bundle_bit_length=64`
-
-That `64` bit-length value is a packed transport detail. It does not change the
-supported semantic frontend identity away from `temporal_threshold_36`.
+Project teams still have to define the front gate for their own data when they
+are doing project-specific work outside the supported lane. That includes
+staging, adapters, feature or threshold design, label posture, and deployment
+assumptions. Those project-owned choices should not be confused with the
+frozen supported lane itself.
 
 ## What BitTrace Does Not Automatically Grant
 
@@ -104,6 +107,8 @@ Outside the supported commercial boundary:
 - research-only architecture comparisons and search expansions
 - alternate persistence logic not defined by the two shipped profiles
 - ad hoc reinterpretations of the supported lane
+- custom front gates, adapters, or label postures that have not been separately
+  frozen and documented as supported
 
 These paths may still be useful in-house. They are not part of the supported
 commercial lane and should not be described as such.

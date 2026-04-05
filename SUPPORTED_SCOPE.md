@@ -1,7 +1,7 @@
 # Supported Scope
 
-This file defines the supported launch surface for the canonical BitTrace API.
-BitTrace is source-available, not OSI open source.
+This file defines the supported launch surface for the BitTrace API. BitTrace
+is source-available, not OSI open source.
 
 This file defines the supported technical surface. For the fastest runnable
 public path, start with [`docs/QUICKSTART.md`](docs/QUICKSTART.md). For the
@@ -35,6 +35,9 @@ The install metadata name in `pyproject.toml` is currently
 `bittrace-api-v3-source`. That is a packaging detail, not a second supported
 public package name.
 
+BitTrace core is the packed-bit training, search, artifact, freeze/export, and
+verification framework surfaced by that public namespace and CLI.
+
 ## Supported Stable Workflows
 
 Top-level supported workflows:
@@ -44,10 +47,8 @@ Top-level supported workflows:
 - `bittrace deployment-candidate`
 - `bittrace persistence`
 
-Supported stable config files:
+Supported shipped persistence profiles:
 
-- `configs/canonical_source_profile.yaml`
-- `configs/canonical_deployment_candidate.yaml`
 - `configs/persistence_quiet_scout.yaml`
 - `configs/persistence_aggressive.yaml`
 
@@ -55,9 +56,9 @@ Supported Python version:
 
 - Python `3.12.x`
 
-## Supported Commercial Deployment Lane
+## Supported Stable Commercial Lane
 
-The supported commercial deployment lane is frozen to:
+The supported stable commercial lane is frozen to:
 
 - frontend: `temporal_threshold_36`
 - backend: `Lean-Lean`
@@ -68,9 +69,15 @@ Important nuance:
 
 - `bittrace campaign` and `bittrace verify` are supported stable workflows for
   canonical freeze/export and parity evidence.
-- The supported commercial deployment lane itself is the fixed
+- The supported stable commercial lane itself is the fixed
   `temporal_threshold_36` + `Lean-Lean` path surfaced by
   `bittrace deployment-candidate` and the two shipped persistence profiles.
+- This supported stable lane does not exhaust the full theoretical BitTrace
+  modeling surface.
+- Support guarantees apply to the supported stable lane, not to every custom
+  BitTrace workflow that can be built around the core framework.
+- Customers who want supported behavior should stay on that documented stable
+  lane unless the repo and docs explicitly expand support.
 
 ## Experimental Surface
 
@@ -127,7 +134,10 @@ Launch-facing docs must not imply:
 - that every importable module is a public stable API
 - that experimental commands have compatibility guarantees
 - that additional persistence policies are part of the supported lane
-- that a different frontend/backend pairing becomes supported because it runs
+- that the supported lane is the whole BitTrace API concept
+- that BitTrace chooses a project's front gate automatically
+- that unsupported project-specific front-gate work inherits support because it
+  uses the same repo
 - that the packaging metadata name is a second public package surface
 
 ## Release Check

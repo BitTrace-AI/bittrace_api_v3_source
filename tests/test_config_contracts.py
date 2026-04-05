@@ -14,20 +14,22 @@ from bittrace.source.leanlean_persistence_tuning import load_leanlean_persistenc
 from bittrace.v3 import ContractValidationError
 
 
-def test_canonical_source_profile_loads(project_root: Path) -> None:
-    profile = load_consumer_config(project_root / "configs" / "canonical_source_profile.yaml")
-    assert profile["profile_name"] == "canonical_source_profile"
+def test_legacy_reference_source_profile_loads(project_root: Path) -> None:
+    profile = load_consumer_config(
+        project_root / "configs" / "legacy_paderborn_reference_source_profile.yaml"
+    )
+    assert profile["profile_name"] == "legacy_paderborn_reference_source_profile"
     assert profile["locked_frontend"]["regime_id"] == "temporal_threshold_36"
     assert profile["backend"]["lean"]["allow_backend_fallback"] is False
     assert profile["backend"]["deep"]["allow_backend_fallback"] is False
 
 
-def test_deployment_candidate_config_loads(project_root: Path) -> None:
+def test_legacy_reference_deployment_candidate_config_loads(project_root: Path) -> None:
     config = load_leanlean_deployment_candidate_config(
-        project_root / "configs" / "canonical_deployment_candidate.yaml"
+        project_root / "configs" / "legacy_paderborn_reference_deployment_candidate.yaml"
     )
-    assert config["profile_name"] == "canonical_deployment_candidate"
-    assert config["source_profile"] == "configs/canonical_source_profile.yaml"
+    assert config["profile_name"] == "legacy_paderborn_reference_deployment_candidate"
+    assert config["source_profile"] == "configs/legacy_paderborn_reference_source_profile.yaml"
     assert config["leanlean_deployment_candidate"]["search"]["seed"] == 7100
 
 
@@ -58,7 +60,7 @@ def test_persistence_prep_rejects_invalid_split_scope(tmp_path: Path) -> None:
         textwrap.dedent(
             """
             profile_name: invalid_persistence
-            deployment_candidate_config: configs/canonical_deployment_candidate.yaml
+            deployment_candidate_config: configs/legacy_paderborn_reference_deployment_candidate.yaml
             window_outputs:
               artifact_name: invalid_template.json
               fields: [source_record_id]

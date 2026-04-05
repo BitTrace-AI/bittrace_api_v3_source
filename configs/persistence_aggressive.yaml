@@ -1,6 +1,6 @@
 profile_name: persistence_aggressive
 
-deployment_candidate_config: configs/canonical_deployment_candidate.yaml
+deployment_candidate_config: configs/legacy_paderborn_reference_deployment_candidate.yaml
 # Intentionally left blank in the shipped stable profile. Pass --source-run-root
 # with the real deployment-candidate run root when invoking `bittrace persistence`.
 source_deployment_run_root:
@@ -69,7 +69,7 @@ planned_outputs:
   per_policy_dirname: per_policy
 
 notes:
-  - "This file freezes the supported aggressive persistence profile for the source lane."
+  - "This file freezes the aggressive persistence profile for the shipped framework."
   - "Provide the real deployment-candidate run root via --source-run-root at execution time."
   - "Reuse the locked Lean-Lean deployment-candidate outputs and the existing persistence-prep materialization."
   - "The supported aggressive runtime stays non-latching: i1 / d1 / y3 / r7."

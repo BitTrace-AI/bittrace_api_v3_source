@@ -1,8 +1,8 @@
 profile_name: leandeep_max_search
 
-source_profile: ../canonical_source_profile.yaml
+source_profile: ../legacy_paderborn_reference_source_profile.yaml
 
-deployment_candidate_summary_path: ../../runs/canonical_deployment_candidate/REPLACE_WITH_RUN_ID/leanlean_deployment_candidate_summary.json
+deployment_candidate_summary_path: ../../runs/legacy_paderborn_reference_deployment_candidate/REPLACE_WITH_RUN_ID/leanlean_deployment_candidate_summary.json
 current_max_search_summary_path: ../../runs/leanlean_max_search/REPLACE_WITH_RUN_ID/leanlean_max_search_summary.json
 deep_layer_max_search_summary_path: ../../runs/leanlean_max_search_deep/REPLACE_WITH_RUN_ID/leanlean_max_search_deep_summary.json
 
@@ -10,7 +10,7 @@ leandeep_max_search:
   report_title: Lean-Deep Max Search
   notes:
     - "Separate research-only rule-out track; this does not replace the Lean-Lean deployment-candidate workflow."
-    - "Frontend semantics remain fixed to the validation-winning temporal_threshold_36 regime."
+    - "Frontend semantics remain fixed to the legacy reference temporal_threshold_36 regime."
     - "Backend architecture remains Lean-Deep only; no ensembles, multiclass, or persistence runtime are added."
     - "Train drives search/materialization, val selects the winner, and test remains final reporting only."
     - "This track materially increases search breadth/depth to test whether Lean-Deep can beat Lean-Lean on the conservative operating point rather than merely buying recall with noisier alerts."

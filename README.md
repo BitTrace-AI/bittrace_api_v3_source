@@ -1,13 +1,42 @@
 # BitTrace API v3 Source
 
 BitTrace is a source-available Python package and CLI for generating,
-verifying, and packaging BitTrace artifacts inside the launch-supported source
-lane.
+verifying, and packaging BitTrace artifacts through a stable packed-bit
+modeling framework.
 
 BitTrace is source-available, not OSI open source.
 
 - Evaluation use is allowed.
 - Commercial or production use requires a separate written commercial license.
+
+## Reference Lane vs BitTrace Core
+
+BitTrace core is the packed-bit training, search, artifact, freeze/export, and
+verification framework surfaced through the public `bittrace` CLI and
+`bittrace` import namespace.
+
+The repo currently ships one supported stable commercial reference lane:
+
+- frontend: `temporal_threshold_36`
+- backend: `Lean-Lean`
+
+That frozen reference lane is the supported path for stable commercial
+behavior. It is not the whole BitTrace modeling surface.
+
+BitTrace API is not just a frontend identity. The fact that the supported lane
+is frozen around `temporal_threshold_36` + `Lean-Lean` does not mean every
+conceivable BitTrace project must use that exact front gate in every context.
+
+Developers and integrators may still own project-specific work such as:
+
+- staging and adapter logic
+- feature definition and thresholding posture
+- label mapping and split discipline
+- target-specific deployment constraints
+
+Custom front gates, adapters, and task-specific modeling work may exist, but
+they are project-specific work outside the supported stable lane unless the
+repo and docs explicitly document them as supported.
 
 ## Canonical Reference
 

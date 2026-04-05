@@ -1,4 +1,4 @@
-"""Canonical source-lane bridge for the full binary V3 freeze/export path."""
+"""Project source-profile bridge for the full binary V3 freeze/export path."""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ FILENAME_RE = re.compile(
     r"^(?P<condition>N\d+_M\d+_F\d+)_(?P<bearing_id>[A-Za-z0-9]+)_(?P<recording>\d+)\.mat$"
 )
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_source_profile.yaml"
+DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "legacy_paderborn_reference_source_profile.yaml"
 DEFAULT_RUNS_ROOT = PROJECT_ROOT / "runs"
 _ADAPTER_PROFILE_ID = "paderborn_binary_mat_v1"
 _WAVEFORM_CHANNEL_NAME = "vibration"
