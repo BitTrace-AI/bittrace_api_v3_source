@@ -11,6 +11,31 @@ Versioning note:
 - Package version `0.3.1` is a stabilization release for the same v3 public
   surface.
 
+## Unreleased
+
+### Changed
+
+- Clarified that BitTrace core is the packed-bit framework surfaced by the
+  `bittrace` CLI and import namespace, while the historical
+  `temporal_threshold_36` + `Lean-Lean` path is retained as a
+  legacy/reference lane.
+- Renamed the old canonical temporal Paderborn configs into explicit legacy
+  reference configs to avoid presenting them as universal API truth.
+- Updated stable docs, examples, and assistant guidance so front-gate
+  definition is treated as project-owned unless a lane is explicitly frozen
+  and documented as supported.
+- Updated stable workflow wording and examples to use explicit project config
+  paths for campaign and deployment-candidate execution.
+
+### Compatibility
+
+- The stable public import namespace remains `bittrace`.
+- The stable public CLI remains `bittrace`.
+- The stable stable-lane commands remain `campaign`, `verify`,
+  `deployment-candidate`, and `persistence`.
+- The current documented supported stable lane remains the frozen
+  `temporal_threshold_36` + `Lean-Lean` reference path.
+
 ## 0.3.1 - 2026-03-31
 
 This entry documents the first release-ready hardening pass for the current
