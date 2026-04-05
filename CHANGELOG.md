@@ -11,7 +11,7 @@ Versioning note:
 - Package version `0.3.1` is a stabilization release for the same v3 public
   surface.
 
-## Unreleased
+## 0.4.0 - 2026-04-05
 
 ### Changed
 

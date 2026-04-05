@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "bittrace-api-v3-source"
 # BitTrace API v3 names the repository/product generation. Package versions
 # remain a separate semver line for this source distribution.
-version = "0.3.1"
+version = "0.4.0"
 description = "BitTrace API v3 source distribution with one supported lane and one experimental lane under the `bittrace` package."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
