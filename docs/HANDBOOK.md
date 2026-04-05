@@ -14,7 +14,7 @@ Use it to answer:
 - what exact workflow you run
 - what artifacts matter
 - what BitTrace owns versus what integration still owns
-- when you are still inside the stable framework boundary versus outside it
+- when you are still inside the documented supported stable lane versus outside it
 
 The goal of this document is practical: a reasonably trained technical user,
 working with the repo and an AI tool or agent, should be able to produce a
