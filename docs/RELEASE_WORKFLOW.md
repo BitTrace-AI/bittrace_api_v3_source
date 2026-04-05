@@ -21,6 +21,10 @@ In the current repo, `.[gpu]` installs `torch>=2.10`. That dependency is used
 by the current Lean and Deep GPU backend implementations for CUDA execution. It
 is not the public BitTrace modeling API.
 
+The retained temporal-threshold reference profile may still appear in bounded
+release smoke or example material, but it should not be described as the
+universal frontend identity of BitTrace.
+
 ## 2. Confirm The Public Surface
 
 Run and archive the public help surface:
@@ -121,11 +125,11 @@ Matching `*.stderr.log` files are written beside them.
 If you need to run the stable path one step at a time, use this order:
 
 ```bash
-bittrace campaign --config configs/canonical_source_profile.yaml --run-id <campaign_run_id> --runs-root runs --campaign-seed 31
-bittrace verify runs/canonical_source_profile/<campaign_run_id>
-bittrace deployment-candidate --config configs/canonical_deployment_candidate.yaml --run-id <deployment_run_id> --runs-root runs --search-seed 7100
-bittrace persistence --config configs/persistence_quiet_scout.yaml --source-run-root runs/canonical_deployment_candidate/<deployment_run_id> --run-id <quiet_run_id>
-bittrace persistence --config configs/persistence_aggressive.yaml --source-run-root runs/canonical_deployment_candidate/<deployment_run_id> --run-id <aggressive_run_id>
+bittrace campaign --config configs/<project_source_profile>.yaml --run-id <campaign_run_id> --runs-root runs --campaign-seed 31
+bittrace verify runs/<project_source_profile>/<campaign_run_id>
+bittrace deployment-candidate --config configs/<project_deployment_candidate>.yaml --run-id <deployment_run_id> --runs-root runs --search-seed 7100
+bittrace persistence --config configs/persistence_quiet_scout.yaml --source-run-root runs/<project_deployment_candidate>/<deployment_run_id> --run-id <quiet_run_id>
+bittrace persistence --config configs/persistence_aggressive.yaml --source-run-root runs/<project_deployment_candidate>/<deployment_run_id> --run-id <aggressive_run_id>
 ```
 
 Use a fresh run id every time. The CLI rejects non-empty run roots.

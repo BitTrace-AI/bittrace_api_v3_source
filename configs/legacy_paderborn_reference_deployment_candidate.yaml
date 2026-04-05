@@ -1,15 +1,15 @@
-profile_name: canonical_deployment_candidate
+profile_name: legacy_paderborn_reference_deployment_candidate
 
-source_profile: configs/canonical_source_profile.yaml
+source_profile: configs/legacy_paderborn_reference_source_profile.yaml
 
 persistence_tuning_config: configs/persistence_quiet_scout.yaml
 
 leanlean_deployment_candidate:
   notes:
-    - "This is the only supported model lane for the source/commercial freeze."
-    - "Lean-Lean is locked as the backend and temporal_threshold_36 remains the fixed frontend."
+    - "This deployment-candidate config exists only for the legacy Paderborn reference path."
+    - "Lean-Lean is locked as the backend and temporal_threshold_36 remains the fixed legacy frontend."
     - "Train drives search, val selects winners, and test remains reserved for final reporting."
-    - "Packed-64 backend compatibility is allowed only as a transport detail; the semantic frontend identity remains temporal_threshold_36."
+    - "Packed-64 backend compatibility is allowed only as a transport detail; the semantic frontend identity remains temporal_threshold_36 for this legacy reference path."
 
   evaluation:
     summary_metric_split: test

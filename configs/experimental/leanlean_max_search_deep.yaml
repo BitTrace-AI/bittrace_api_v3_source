@@ -1,15 +1,15 @@
 profile_name: leanlean_max_search_deep
 
-source_profile: ../canonical_source_profile.yaml
+source_profile: ../legacy_paderborn_reference_source_profile.yaml
 
-deployment_candidate_summary_path: ../../runs/canonical_deployment_candidate/REPLACE_WITH_RUN_ID/leanlean_deployment_candidate_summary.json
+deployment_candidate_summary_path: ../../runs/legacy_paderborn_reference_deployment_candidate/REPLACE_WITH_RUN_ID/leanlean_deployment_candidate_summary.json
 current_max_search_summary_path: ../../runs/leanlean_max_search/REPLACE_WITH_RUN_ID/leanlean_max_search_summary.json
 
 leanlean_max_search:
   report_title: Lean-Lean Max Search Deep
   notes:
     - "Separate research-only ceiling track; this does not replace the Lean-Lean deployment-candidate workflow."
-    - "Frontend semantics remain fixed to the validation-winning temporal_threshold_36 regime."
+    - "Frontend semantics remain fixed to the legacy reference temporal_threshold_36 regime."
     - "Backend architecture remains Lean-Lean only; no ensembles, multiclass, or persistence runtime are added."
     - "Train drives search/materialization, val selects the winner, and test remains final reporting only."
     - "This track preserves the same conservative ranking objective and the same dataset/splits as the existing <=3-layer max-search."

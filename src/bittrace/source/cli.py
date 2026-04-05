@@ -1,4 +1,4 @@
-"""CLI for the frozen BitTrace V3 source lane."""
+"""CLI for the stable BitTrace V3 source workflows."""
 
 from __future__ import annotations
 
@@ -41,12 +41,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="bittrace",
         description=(
-            "Supported BitTrace CLI for the "
-            "temporal_threshold_36 + Lean-Lean shipping path."
+            "Supported BitTrace CLI for stable packed-bit workflow execution."
         ),
         epilog=(
-            "Supported surface: canonical campaign, verify/parity, canonical "
-            "deployment-candidate, and the quiet/aggressive persistence profiles."
+            "Supported surface: campaign, verify/parity, deployment-candidate, "
+            "and the quiet/aggressive persistence profiles."
         ),
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -63,8 +62,8 @@ def register_supported_commands(
     )
     campaign.add_argument(
         "--config",
-        default=str(DEFAULT_SOURCE_PROFILE_CONFIG_PATH),
-        help="Path to the canonical source profile YAML.",
+        required=True,
+        help="Path to the project source profile YAML.",
     )
     campaign.add_argument(
         "--run-id",
@@ -85,18 +84,18 @@ def register_supported_commands(
     campaign.add_argument(
         "--prepare-only",
         action="store_true",
-        help="Build request/stage configs without launching the canonical campaign.",
+        help="Build request/stage configs without launching the campaign.",
     )
     campaign.set_defaults(handler=_run_campaign)
 
     candidate = subparsers.add_parser(
         "deployment-candidate",
-        help="Run the frozen temporal_threshold_36 + Lean-Lean deployment lane.",
+        help="Run a deployment-candidate search from an explicit project config.",
     )
     candidate.add_argument(
         "--config",
-        default=str(DEFAULT_DEPLOYMENT_CANDIDATE_CONFIG_PATH),
-        help="Path to the canonical deployment-candidate YAML.",
+        required=True,
+        help="Path to the project deployment-candidate YAML.",
     )
     candidate.add_argument(
         "--run-id",

@@ -1,4 +1,4 @@
-"""Lean-Lean deployment-candidate workflow over the locked temporal frontend."""
+"""Lean-Lean deployment-candidate workflow over an explicit locked frontend."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ from .temporal_features import load_temporal_feature_config
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "canonical_deployment_candidate.yaml"
+DEFAULT_CONFIG_PATH = PROJECT_ROOT / "configs" / "legacy_paderborn_reference_deployment_candidate.yaml"
 DEFAULT_PERSISTENCE_CONFIG_PATH = PROJECT_ROOT / "configs" / "persistence_quiet_scout.yaml"
 DEFAULT_RUNS_ROOT = BACKEND_DEFAULT_RUNS_ROOT
 SUMMARY_ARTIFACT_NAME = "leanlean_deployment_candidate_summary.json"
@@ -349,7 +349,7 @@ def write_leanlean_deployment_candidate_plan(
             "semantic_bit_length": comparison.shared_bundle.semantic_bit_length,
             "packed_bit_length": comparison.shared_bundle.packed_bit_length,
             "packed64_compatibility": True,
-            "preserves_temporal_threshold_36_identity": True,
+            "preserves_legacy_temporal_threshold_36_identity": True,
         },
         "deployment_candidate": {
             "architecture_locked": "LEAN_LEAN",

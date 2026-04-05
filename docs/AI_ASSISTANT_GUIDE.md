@@ -33,9 +33,11 @@ Give the assistant these constraints up front:
   - `bittrace verify`
   - `bittrace deployment-candidate`
   - `bittrace persistence`
-- supported commercial deployment lane:
-  - frontend `temporal_threshold_36`
-  - backend `Lean-Lean`
+- supported commercial posture is framework-first; project teams still own
+  front-gate, thresholding, feature-definition, label, and staging choices
+- the currently documented supported stable lane is still the frozen
+  `temporal_threshold_36` + `Lean-Lean` reference path
+- shipped persistence profiles:
   - quiet scout persistence `i1 / d1 / y6 / r12 / no-latch`
   - aggressive persistence `i1 / d1 / y3 / r7 / no-latch`
 - experimental workflows stay under `bittrace experimental ...`
@@ -46,7 +48,7 @@ Give the assistant these constraints up front:
 
 For `bittrace campaign`, share:
 
-- `configs/canonical_source_profile.yaml`
+- the exact project source-profile YAML you ran
 - `<campaign_run_root>/bt3.campaign_request.json`
 - `<campaign_run_root>/bt3.campaign_result.json` if it exists
 - the campaign run root path
@@ -61,7 +63,7 @@ For `bittrace verify`, share:
 
 For `bittrace deployment-candidate`, share:
 
-- `configs/canonical_deployment_candidate.yaml`
+- the exact deployment-candidate YAML you ran
 - `<deployment_run_root>/leanlean_deployment_candidate_plan.json`
 - `<deployment_run_root>/leanlean_deployment_candidate_summary.json`
 - `<deployment_run_root>/summary.csv`
@@ -137,7 +139,7 @@ Also define the front gate explicitly:
 - what packed-row contract reaches the Lean or Deep backend
 
 Before building anything, classify the project honestly:
-- if the project can be handled by adapting the canonical source profile and staging the data into the current waveform-backed contract, say so and use config adaptation first
+- if the project can be handled by adapting an explicit project source profile and staging the data into the intended waveform-backed contract, say so and use config adaptation first
 - if the project cannot fit that contract cleanly, stop and name the required staging or adapter work explicitly
 - do not anchor the project on any one internal development dataset; define the project-specific staged contract directly
 
@@ -165,11 +167,11 @@ Repository root: /path/to/bittrace_api_v3_source
 Working directory: /path/to/bittrace_api_v3_source
 Stable or experimental: stable
 Install command: python -m pip install -e ".[gpu]"
-Command run: bittrace deployment-candidate --config configs/canonical_deployment_candidate.yaml --run-id demo_01 --runs-root runs --search-seed 7100
-Inputs/configs: configs/canonical_deployment_candidate.yaml
+Command run: bittrace deployment-candidate --config configs/my_project_deployment_candidate.yaml --run-id demo_01 --runs-root runs --search-seed 7100
+Inputs/configs: configs/my_project_deployment_candidate.yaml
 Outputs:
-- runs/canonical_deployment_candidate/demo_01/leanlean_deployment_candidate_plan.json
-- runs/canonical_deployment_candidate/demo_01/leanlean_deployment_candidate_summary.json
+- runs/my_project_deployment_candidate/demo_01/leanlean_deployment_candidate_plan.json
+- runs/my_project_deployment_candidate/demo_01/leanlean_deployment_candidate_summary.json
 
 Full stdout:
 [paste it]
@@ -182,7 +184,9 @@ Constraints:
 - Public CLI is bittrace
 - Stable workflows are campaign / verify / deployment-candidate / persistence
 - Experimental stays under bittrace experimental ...
-- Supported commercial lane is temporal_threshold_36 + Lean-Lean
+- Front-gate definition is project-owned and must be stated explicitly
+- If you are relying on the shipped supported lane, say that it is the frozen
+  temporal_threshold_36 + Lean-Lean reference path rather than BitTrace as a whole
 - Do not change runtime behavior unless you find a true blocker
 ```
 
@@ -193,7 +197,7 @@ Do not ask the assistant to do these by default:
 - rename the public CLI or import namespace
 - move stable workflows under the experimental namespace
 - treat experimental commands as supported commercial-lane output
-- swap the supported frontend/backend pairing casually
+- assume a historical reference frontend is the BitTrace API identity
 - rewrite the business model into a different license model
 - overclaim patent rights
 

@@ -1,6 +1,6 @@
 profile_name: leanlean_deployment_candidate_seeds
 
-deployment_candidate_config: ../canonical_deployment_candidate.yaml
+deployment_candidate_config: ../legacy_paderborn_reference_deployment_candidate.yaml
 
 seeds: [7100, 7101, 7102]
 
