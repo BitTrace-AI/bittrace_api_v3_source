@@ -27,6 +27,9 @@ Think about BitTrace work in explicit phases, not as one automatic run.
 Passing the smoke path means the install, dependencies, commands, and
 data-to-artifact flow are functioning. It does not mean BitTrace has already
 found the best deployment candidate for your dataset or operating constraints.
+For a custom dataset, the upfront Lean/front-gate setup is not automatic; you
+must define and validate the project front gate before serious model
+development begins.
 
 ## Reference Lane vs BitTrace Core
 
@@ -86,7 +89,7 @@ outside the supported commercial lane.
 `BitTrace API v3` names the frozen repository and product generation.
 
 The Python distribution `bittrace-api-v3-source` follows its own semver release
-line inside that v3 generation. A package release such as `0.3.1` is still the
+line inside that v3 generation. A package release such as `0.4.0` is still the
 same BitTrace API v3 public surface unless the supported `bittrace` import or
 CLI contract changes.
 

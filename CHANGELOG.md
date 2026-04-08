@@ -8,7 +8,7 @@ Versioning note:
 - `BitTrace API v3` identifies the frozen repository and product generation.
 - The Python distribution `bittrace-api-v3-source` uses its own semver release
   line inside that v3 generation.
-- Package version `0.3.1` is a stabilization release for the same v3 public
+- Package version `0.4.0` is a release for the same v3 public
   surface.
 
 ## 0.4.0 - 2026-04-05

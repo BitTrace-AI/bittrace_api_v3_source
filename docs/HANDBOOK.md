@@ -37,6 +37,9 @@ Work from exact artifacts, not from vague intentions:
 BitTrace is not a foundation-model workflow where raw project material becomes
 a deployable model automatically. Front-gate definition, staging, labels,
 splits, and target constraints must already be settled.
+For a custom dataset, solving the upfront Lean/front-gate contract is part of
+project setup work. BitTrace does not auto-solve that contract for you, and
+serious model development starts after it is explicit.
 
 ## BitTrace Development Phases
 
@@ -162,7 +165,7 @@ namespace or CLI surface.
 `BitTrace API v3` identifies the frozen repository and product generation.
 
 The Python distribution `bittrace-api-v3-source` uses its own semver release
-line inside that v3 generation. A package version such as `0.3.1` is a source
+line inside that v3 generation. A package version such as `0.4.0` is a source
 distribution release for the same stable v3 public surface. It does not rename
 the supported `bittrace` import namespace or the `bittrace` CLI.
 

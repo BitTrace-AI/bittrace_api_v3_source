@@ -19,6 +19,9 @@ Assistants should frame BitTrace work in explicit phases.
   comparison.
 - Before recommending a deployment candidate, ask about operating goals and
   tradeoff priorities when they are not already explicit.
+- For a custom dataset, say plainly that the upfront Lean/front-gate contract
+  must be defined before serious tuning or candidate selection, and do not
+  jump straight to `bittrace campaign` if that contract is still undefined.
 
 For serious development, assistants should normally push the workflow toward:
 
