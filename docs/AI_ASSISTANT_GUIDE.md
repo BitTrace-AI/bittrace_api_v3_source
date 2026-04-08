@@ -6,6 +6,33 @@ and want a clean, guess-free troubleshooting handoff.
 For the canonical technical reference, start with
 [`docs/HANDBOOK.md`](HANDBOOK.md).
 
+## AI Guidance For Phased Development
+
+Assistants should frame BitTrace work in explicit phases.
+
+- Do not present smoke-test success as "done."
+- Do not present a first baseline run as the recommended stopping point.
+- Treat the smoke path as Phase 0 toolchain validation only.
+- Treat the first project run as a starter/reference result, not the final
+  model.
+- After baseline, guide serious users toward deliberate tuning and sweep-based
+  comparison.
+- Before recommending a deployment candidate, ask about operating goals and
+  tradeoff priorities when they are not already explicit.
+
+For serious development, assistants should normally push the workflow toward:
+
+1. a reproducible baseline/reference run
+2. hyperparameter, threshold, and profile sweeps
+3. persistence or referee tuning where supported and relevant
+4. comparison of precision, recall, F1, and false-positive tradeoffs
+5. validation of a candidate chosen from evidence rather than from the first
+   successful run
+
+Do not imply that BitTrace automatically finds the best model with no user
+judgment. Candidate selection should follow sweeps, artifact review, and the
+intended operating posture.
+
 ## Always Send These First
 
 For any troubleshooting request, include:
@@ -88,6 +115,10 @@ For `python scripts/run_release_smoke.py`, share:
 - the relevant `*.stdout.log`
 - the relevant `*.stderr.log`
 
+When the request is about the release smoke, the assistant should say plainly
+that this is a smoke or sanity path only. It proves install and pipeline
+health, not model quality or final deployment choice.
+
 ## Tell The Assistant The Install Context
 
 The assistant should know whether you used:
@@ -147,17 +178,19 @@ Once the kickoff packet is complete, proceed through this sequence:
 1. define or adapt the project config/profile
 2. validate paths and inputs
 3. run prepare-only where supported
-4. run the source-lane campaign
+4. run the source-lane baseline campaign
 5. run verification
-6. build the deployment candidate
-7. run persistence if the application requires temporal alert state
-8. prepare the on-device handoff and validation checklist
+6. build the initial deployment-candidate baseline
+7. run deliberate tuning and comparison sweeps before treating any candidate as final
+8. run persistence if the application requires temporal alert state
+9. prepare the on-device handoff and validation checklist
 
 When you answer:
 - be explicit about the data-processing and encoding steps
 - distinguish stable shipped repo behavior from project-specific work
 - use exact commands, file paths, configs, run roots, and artifact names
 - do not widen the commercial lane unless the repo explicitly supports it
+- do not confuse smoke success or one baseline result with optimized model selection
 ```
 
 ## Good Prompt Template

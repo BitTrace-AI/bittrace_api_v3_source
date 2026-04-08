@@ -10,7 +10,7 @@ maintained doc path.
 | Need | Go to |
 | --- | --- |
 | Canonical technical reference | [`HANDBOOK.md`](HANDBOOK.md) |
-| Fastest repo-native setup and validation | [`QUICKSTART.md`](QUICKSTART.md) |
+| Fastest repo-native setup and smoke validation | [`QUICKSTART.md`](QUICKSTART.md) |
 | Command, YAML, and direct-runtime cheat sheet | [`USER_GUIDE.md`](USER_GUIDE.md) |
 | Working with an AI assistant | [`AI_ASSISTANT_GUIDE.md`](AI_ASSISTANT_GUIDE.md) |
 | Release-facing checks and packaging | [`RELEASE_WORKFLOW.md`](RELEASE_WORKFLOW.md) |
@@ -32,9 +32,14 @@ maintained doc path.
 ### Running The Stable Workflow
 
 1. [`HANDBOOK.md`](HANDBOOK.md)
-2. [`QUICKSTART.md`](QUICKSTART.md)
+2. [`QUICKSTART.md`](QUICKSTART.md) for Phase 0 toolchain validation only
 3. [`USER_GUIDE.md`](USER_GUIDE.md)
 4. [`AI_ASSISTANT_GUIDE.md`](AI_ASSISTANT_GUIDE.md)
+
+Quick framing:
+
+- `QUICKSTART.md` is the smoke and sanity path.
+- `HANDBOOK.md` is the canonical phased workflow and technical reference.
 
 ### Release Or Launch Review
 

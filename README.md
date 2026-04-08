@@ -9,6 +9,25 @@ BitTrace is source-available, not OSI open source.
 - Evaluation use is allowed.
 - Commercial or production use requires a separate written commercial license.
 
+## BitTrace Development Phases
+
+Think about BitTrace work in explicit phases, not as one automatic run.
+
+- Quickstart and release smoke are Phase 0 only: toolchain validation.
+- A first successful end-to-end run is not performance tuning or model
+  optimization.
+- A baseline automatic run is a starter/reference result and comparison
+  anchor, not the finish line.
+- Serious development requires deliberate tuning: sweeps, threshold
+  exploration, profile comparison, persistence or referee tuning where
+  relevant, and validation against the real operating goal.
+- Deployment selection should follow evidence from sweeps and validation, not
+  the first run that worked.
+
+Passing the smoke path means the install, dependencies, commands, and
+data-to-artifact flow are functioning. It does not mean BitTrace has already
+found the best deployment candidate for your dataset or operating constraints.
+
 ## Reference Lane vs BitTrace Core
 
 BitTrace core is the packed-bit training, search, artifact, freeze/export, and

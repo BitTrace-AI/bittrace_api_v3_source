@@ -38,6 +38,102 @@ BitTrace is not a foundation-model workflow where raw project material becomes
 a deployable model automatically. Front-gate definition, staging, labels,
 splits, and target constraints must already be settled.
 
+## BitTrace Development Phases
+
+Treat BitTrace development as an explicit phased workflow.
+
+### Phase 0: Environment And Smoke Test
+
+Purpose:
+
+- verify install
+- verify dependencies
+- verify commands run
+- verify data and artifact flow is functioning
+
+This phase is not:
+
+- performance tuning
+- model optimization
+- final model selection
+
+Passing Phase 0 means the toolchain works. It does not mean the first emitted
+result is good enough to ship.
+
+Typical artifacts in this phase come from the release smoke path under
+`runs/release_smoke/<smoke_run_id>/`. Those artifacts prove the supported
+workflow launches and emits expected outputs. They do not choose a deployment
+candidate for you.
+
+### Phase 1: Baseline Or Reference Run
+
+Purpose:
+
+- produce an initial, reproducible reference result
+- confirm the pipeline works end-to-end on real project data
+- establish a starting point for comparison
+
+This phase gives you a seed result, not a finished answer. The baseline may be
+conservative or suboptimal. Do not treat the first baseline as final model
+selection.
+
+Typical artifacts here are the first project-owned `bittrace campaign`,
+`bittrace verify`, and `bittrace deployment-candidate` outputs that you can
+reproduce exactly. Their main value is that later tuning work has a stable
+comparison anchor.
+
+### Phase 2: Deliberate Tuning And Sweeps
+
+Purpose:
+
+- improve model behavior for the actual dataset and operating objective
+
+Serious development happens here. This phase should include, where supported
+and relevant:
+
+- hyperparameter sweeps
+- search breadth and depth tuning
+- threshold sweeps
+- profile comparison
+- persistence or referee tuning
+- comparison of precision, recall, F1, and false-positive tradeoffs
+
+Choose deployment candidates based on operating needs and tradeoffs, not just
+one headline metric and not just the first run that worked.
+
+### Phase 3: Validation And Candidate Selection
+
+Purpose:
+
+- select a deployment candidate from tuned results
+- validate stability and repeatability
+- confirm tradeoff fit against the intended use case
+
+Deployment selection is an engineering decision backed by evidence gathered in
+Phase 2. It should come from comparative results, artifact review, and target
+fit, not from whichever baseline happened to run first.
+
+In practice, this phase means checking that the chosen candidate behaves
+consistently across reruns, matches the intended operating posture, and still
+looks correct once verification and any persistence behavior are considered.
+
+## Phase-To-Workflow Mapping
+
+Map the phases to the repo workflow like this:
+
+- Phase 0: `python scripts/run_release_smoke.py`
+- Phase 1: first reproducible project run through `bittrace campaign`,
+  `bittrace verify`, and usually an initial `bittrace deployment-candidate`
+  execution
+- Phase 2: repeated `bittrace deployment-candidate` and, where needed,
+  `bittrace persistence` runs across tuned settings and compared profiles
+- Phase 3: evidence-backed deployment-candidate choice plus final verification
+  and handoff review
+
+BitTrace gives you the workflow and artifacts to support this process. It does
+not auto-decide the right operating goal, tradeoff posture, or deployment
+choice without user judgment.
+
 ## Public Surface
 
 BitTrace ships one public import namespace and one public CLI:
